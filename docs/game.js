@@ -1,4 +1,4 @@
-import Player from './Player.js';
+import Player from './Cripple-Ninja/docs/Player.js';
 export default class Game extends Phaser.Scene {
 
     constructor() {
