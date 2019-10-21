@@ -6,8 +6,8 @@ export default class Game extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("background", "../resources/background.png");
-        this.load.image('ninja', '../resources/CrippleNinja.png');
+        this.load.image("background", "./resources/background.png");
+        this.load.image('ninja', './resources/CrippleNinja.png');
     }
 
     create() {
