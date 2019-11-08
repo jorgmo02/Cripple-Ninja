@@ -30,11 +30,10 @@ export default class Game extends Phaser.Scene {
         
         //this.miNinja.Hide();
 
-        let button = new Button(this, 700, 375, 'button');
+        let button = new Button(this, 700, 375, 'button', miNinja);
     }
 
-    noDejarQueEscape()
-    {
+    noDejarQueEscape() {
         this.input.mouse.requestPointerLock();
     }
 

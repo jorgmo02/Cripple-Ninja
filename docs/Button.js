@@ -1,24 +1,33 @@
 export default class Button extends Phaser.GameObjects.Sprite{
-    constructor(scene, x,y, sprite){
+
+    constructor(scene, x,y, sprite, ninja){
+
         super(scene, x, y, sprite);
+        this.setInteractive();
+
+        this.ninja = ninja;
 
         console.log("boton creado");
         scene.add.existing(this);
         this.mouse = scene.input.activePointer;
-        scene.input.on('pointerdown', mouse => {
-            if (this.mouse.isDown) {
-                //scene.noDejarQueEscape();
+
+        this.on('pointerdown', mouse => {
+            if (mouse.leftButtonDown()) {
                 this.onClick();
             }
-        } );
+        } , this);
+
+        /*this.on('pointerover', mouse => {
+            //this.HacerQueBrille();
+        } );*/
     }
 
     preUpdate(){
-        console.log('estás malito');
+        
     }
 
-    onClick()
-    {
+    onClick() {
+        this.ninja.Jump();
         this.Hide();
     }
 

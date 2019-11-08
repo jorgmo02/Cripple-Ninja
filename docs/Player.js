@@ -10,7 +10,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.speed = 500;
         this.jumpSpeed = -900;
         this.jumpsLeft = nJumps;
-        this.offsetX = 5;
+        this.offsetX = 20;
         this.camera = scene.cameras.main;
 
     }
@@ -29,10 +29,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.mouse.updateWorldPoint(this.camera);
         
         //PseudoSalto
-        if(this.mouse.leftButtonDown() && this.body.onFloor() && this.jumpsLeft > 0){
+        /*if(this.mouse.leftButtonDown() && this.body.onFloor() && this.jumpsLeft > 0){
             this.body.setVelocityY(this.jumpSpeed);
             this.jumpsLeft--;
-        }
+        }*/
     }
 
     ChangePos (newX,newY){
@@ -42,7 +42,14 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.y += newY*this.jumpSpeed;
     }
 
-    Hide(){
+    Hide() {
         this.sprite.setAlpha(0);
+    }
+
+    Jump() {
+        if(this.body.onFloor() && this.jumpsLeft > 0){
+            this.body.setVelocityY(this.jumpSpeed);
+            this.jumpsLeft--;
+        }
     }
 }
