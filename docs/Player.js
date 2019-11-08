@@ -11,6 +11,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.jumpSpeed = -900;
         this.jumpsLeft = nJumps;
         this.offsetX = 20;
+        this.offsetY = 50;
         this.camera = scene.cameras.main;
 
     }
@@ -27,6 +28,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
         else if(this.mouse.rightButtonReleased())this.body.setVelocityX(0);
 
         this.mouse.updateWorldPoint(this.camera);
+
+       console.log(this.body.velocity.y);
+
+       if(this.body.velocity.y > -(this.jumpSpeed + this.offsetY || this.body.velocity === 0 && this.body.onFloor()))this.body.setVelocityX(0);
         
         //PseudoSalto
         /*if(this.mouse.leftButtonDown() && this.body.onFloor() && this.jumpsLeft > 0){
@@ -49,7 +54,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
     Jump() {
         if(this.body.onFloor() && this.jumpsLeft > 0){
             this.body.setVelocityY(this.jumpSpeed);
+            let movX = this.mouse.worldX-this.x
+            this.body.setVelocityX(movX);
+            this.flipX = movX < 0;
             this.jumpsLeft--;
         }
+    }
+
+    ResetVelocity(){
+        this.body.setVelocityY(0);
+        this.body.setVelocityX(0);
     }
 }
