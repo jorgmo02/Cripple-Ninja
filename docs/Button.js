@@ -18,7 +18,7 @@ export default class Button extends Phaser.GameObjects.Sprite{
         } , this);
 
         /*this.on('pointerover', mouse => {
-            //this.HacerQueBrille();
+            this.HacerQueBrille();
         } );*/
     }
 
