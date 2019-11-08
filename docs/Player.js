@@ -1,5 +1,5 @@
 export default class Player extends Phaser.GameObjects.Sprite{
-    constructor(scene, x,y, sprite){
+    constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
 
         console.log("player creado");
@@ -7,28 +7,39 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
         this.mouse = scene.input.activePointer;
+        this.speed = 500;
+        this.jumpSpeed = -900;
+        this.jumpsLeft = nJumps;
+        this.offsetX = 5;
+        this.camera = scene.cameras.main;
+
     }
 
     preUpdate(){ 
-        if(this.mouse.rightButtonDown()){
-            this.ChangePos(this.mouse.worldX - this.x, 0, 0.03);
+        if(this.mouse.rightButtonDown() && this.mouse.worldX-this.x >this.offsetX){
+            this.body.setVelocityX(this.speed);
+            this.flipX = false;
         }
+        else if(this.mouse.rightButtonDown() && this.mouse.worldX-this.x < - this.offsetX){
+            this.body.setVelocityX(-this.speed);
+            this.flipX = true;
+        }
+        else if(this.mouse.rightButtonReleased())this.body.setVelocityX(0);
+
+        this.mouse.updateWorldPoint(this.camera);
+        
         //PseudoSalto
-        else if(this.mouse.leftButtonDown()){
-            this.ChangePos(this.mouse.worldX - this.x, this.mouse.worldY - this.y, 0.03);
+        if(this.mouse.leftButtonDown() && this.body.onFloor() && this.jumpsLeft > 0){
+            this.body.setVelocityY(this.jumpSpeed);
+            this.jumpsLeft--;
         }
     }
 
-    ChangePos (newX, newY, speed){
+    ChangePos (newX,newY){
         console.log('cambio de posicion');
         this.FlipSprite(newX);
-        this.x += newX*speed;
-        this.y += newY*speed;
-    }
-
-    FlipSprite(newX){
-        if(newX >=0) this.setScale(1,1);
-        else this.setScale(-1,1);
+        this.x += newX*this.speed;
+        this.y += newY*this.jumpSpeed;
     }
 
     Hide(){

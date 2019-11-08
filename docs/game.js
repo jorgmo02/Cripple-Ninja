@@ -15,11 +15,18 @@ export default class Game extends Phaser.Scene {
 
     create() {
         this.background = this.add.image(0, 0,'background');
-        this.background.setScale(0.75,0.75);
         this.background.setOrigin(0,0);
 
+        this.physics.world.setBounds(0,0,2*1920,1080);
+        this.cameras.main.setBounds(0,0,2*1920,1080);
+
+        this.cameras.main.setSize(1400,800);
         
-        let miNinja = new Player (this, 700, 500, "ninja");
+        
+        let miNinja = new Player (this, 700, 500, "ninja", 6);
+
+        this.cameras.main.startFollow(miNinja);
+        this.cameras.main.followOffset.x = -300;
         
         //this.miNinja.Hide();
 

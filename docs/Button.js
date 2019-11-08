@@ -24,7 +24,6 @@ export default class Button extends Phaser.GameObjects.Sprite{
 
     Hide(){
         this.setVisible(false);
-        this.setActive(false);
-        
+        this.setActive(false); 
     }
 }
