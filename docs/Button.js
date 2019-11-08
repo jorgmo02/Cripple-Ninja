@@ -27,8 +27,8 @@ export default class Button extends Phaser.GameObjects.Sprite{
     }
 
     onClick() {
-        this.ninja.Jump();
-        this.Hide();
+        this.ninja.Jump(this.x, this.y);
+        //this.Hide();
     }
 
     Hide(){

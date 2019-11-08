@@ -1,4 +1,5 @@
 export default class Player extends Phaser.GameObjects.Sprite{
+
     constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
 
@@ -8,30 +9,59 @@ export default class Player extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
         this.mouse = scene.input.activePointer;
         this.speed = 500;
-        this.jumpSpeed = -900;
+        this.jumpSpeed = -1.75;
         this.jumpsLeft = nJumps;
         this.offsetX = 20;
         this.offsetY = 50;
+        this.jumping = false;
+        this.attached = false;
         this.camera = scene.cameras.main;
 
     }
 
-    preUpdate(){ 
-        if(this.mouse.rightButtonDown() && this.mouse.worldX-this.x >this.offsetX){
-            this.body.setVelocityX(this.speed);
-            this.flipX = false;
+    preUpdate() {
+
+        console.log(this.attached);
+        
+        if (!this.jumping && !this.attached)
+        {
+            let objX = this.mouse.worldX;
+            if (this.mouse.rightButtonDown() && objX-this.x > this.offsetX) {
+                this.body.setVelocityX(this.speed);
+                this.flipX = false;
+            }
+
+            else if (this.mouse.rightButtonDown() && objX-this.x < - this.offsetX) {
+                this.body.setVelocityX(-this.speed);
+                this.flipX = true;
+            }
+
+            else if (this.mouse.rightButtonReleased())
+                this.body.setVelocityX(0);
         }
-        else if(this.mouse.rightButtonDown() && this.mouse.worldX-this.x < - this.offsetX){
-            this.body.setVelocityX(-this.speed);
-            this.flipX = true;
+
+        else if(this.jumping && this.attached) {
+            
         }
-        else if(this.mouse.rightButtonReleased())this.body.setVelocityX(0);
+        
+        else if(this.body.velocity.y >= 0)
+        {
+            if (!this.onFloor) this.attached = true;
+            this.ResetVelocity();
+            this.body.setAllowGravity(false);
+            this.jumping = false;
+        }
 
         this.mouse.updateWorldPoint(this.camera);
 
-       console.log(this.body.velocity.y);
+        //console.log("X  : " + this.body.velocity.x);
+        //console.log("Y  : " + this.body.velocity.y);
 
-       if(this.body.velocity.y > -(this.jumpSpeed + this.offsetY || this.body.velocity === 0 && this.body.onFloor()))this.body.setVelocityX(0);
+        /*if(this.body.velocity.y > -(this.jumpSpeed + this.offsetY) || (this.body.velocity.y === 0 && this.body.onFloor())) {
+
+           this.jumping = false;
+           this.body.setVelocityX(0);
+        }
         
         //PseudoSalto
         /*if(this.mouse.leftButtonDown() && this.body.onFloor() && this.jumpsLeft > 0){
@@ -51,13 +81,16 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.sprite.setAlpha(0);
     }
 
-    Jump() {
-        if(this.body.onFloor() && this.jumpsLeft > 0){
-            this.body.setVelocityY(this.jumpSpeed);
-            let movX = this.mouse.worldX-this.x
+    Jump(x, y) {
+        if ((this.body.onFloor() || (!this.jumping && this.attached)) && this.jumpsLeft > 0) {
+            this.body.setAllowGravity(true);    
+            let movX = x - this.x;
+            this.jumping = true;
+            this.body.setVelocityY((this.y - y) * this.jumpSpeed);
             this.body.setVelocityX(movX);
-            this.flipX = movX < 0;
-            this.jumpsLeft--;
+            this.flipX = (movX < 0);
+            this.y -= 0.1;
+            //this.jumpsLeft--;
         }
     }
 
