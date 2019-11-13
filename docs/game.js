@@ -11,12 +11,21 @@ export default class Game extends Phaser.Scene {
         this.load.image("button", "./resources/play.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
         this.input.mouse.disableContextMenu();
+        this.load.tilemapTiledJSON('tilemap', './resources/MaPatata.json');
+        this.load.image('patronesTilemap', './resources/Tileset.tsx');
     }
 
     create() {
-        this.background = this.add.image(0, 0,'background');
-        this.background.setOrigin(0,0);
+        //this.background = this.add.image(0, 0,'background');
+        //this.background.setOrigin(0,0);
 
+        this.map = this.add.tilemap({ 
+            key: 'tilemap', 
+            //tileWidth: 128, 
+            //tileHeight: 128 
+          });
+        this.map.addTilesetImage('patrones', 'patronesTilemap');
+        
         this.physics.world.setBounds(0,0,2*1920,1080);
         this.cameras.main.setBounds(0,0,2*1920,1080);
 

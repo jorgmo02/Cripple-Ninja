@@ -23,11 +23,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
     }
 
     preUpdate() {
-        //console.clear();
-        //console.log(this.attached);
-        //console.log("jumping: " + this.jumping);
-        //console.log(this.body.onFloor());
-        //console.log(this.y);
 
         if(this.jumping){
             curve.getPoint(path.t, path.vec);
@@ -35,7 +30,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
             this.y = path.vec.y;
         }
 
-        if (this.body.onFloor())
+        else if (this.body.onFloor())
         {
             let objX = this.mouse.worldX;
             if (this.mouse.rightButtonDown() && objX-this.x > this.offsetX) {
@@ -57,49 +52,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
         }
 
         this.mouse.updateWorldPoint(this.camera);
-
-        /*else if((this.y - this.objy <= 20 && this.y - this.objy >= 0))//this.body.velocity.y >= 0)
-        {
-            this.body.setAllowGravity(false);
-            this.ResetVelocity();
-            this.jumping = false;
-            this.attached = true;
-        }*/
-
-
-        //console.log("X  : " + this.body.velocity.x);
-        //console.log("Y  : " + this.body.velocity.y);
-
-        /*if(this.body.velocity.y > -(this.jumpSpeed + this.offsetY) || (this.body.velocity.y === 0 && this.body.onFloor())) {
-
-           this.jumping = false;
-           this.body.setVelocityX(0);
-        }*/
-    }
-
-    ChangePos (newX,newY){
-        console.log('cambio de posicion');
-        this.FlipSprite(newX);
-        this.x += newX*this.speed;
-        this.y += newY*this.jumpSpeed;
     }
 
     Hide() {
         this.sprite.setAlpha(0);
-    }
-
-    Move(x, y) {
-        if ((this.body.onFloor() || this.attached) && this.jumpsLeft > 0) {
-            this.y -= 1;
-            this.body.setAllowGravity(true);
-            let movX = x - this.x;
-            this.jumping = true;
-            this.objy = y;
-            this.body.setVelocityY((this.y - y) * this.jumpSpeed);
-            this.body.setVelocityX(movX);
-            this.flipX = (movX < 0);
-            //this.jumpsLeft--;
-        }
     }
 
     ResetVelocity(){
@@ -110,6 +66,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     Jump(x, y){
         if(this.attached || this.body.onFloor()) {
             this.jumping = true;
+            //this.jumpsLeft--;
             path = { t: 0, vec: new Phaser.Math.Vector2() };
 
             this.flipX = (x < this.x);
@@ -120,10 +77,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
             let endPoint = new Phaser.Math.Vector2(x, y);
 
             curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
-            
-            let player = this;
             let tiempo = Math.sqrt(Math.pow((this.x -x), 2) + Math.pow((this.y-y), 2));
 
+            let player = this;
             this.scene.tweens.add({
                 onComplete: function(){
                     player.jumping = false;
