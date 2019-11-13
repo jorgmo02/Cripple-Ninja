@@ -112,18 +112,18 @@ export default class Player extends Phaser.GameObjects.Sprite{
             this.jumping = true;
             path = { t: 0, vec: new Phaser.Math.Vector2() };
 
-            let startPoint = new Phaser.Math.Vector2(this.x, this.y);
-
-            let dir = 1;
-            if(x < this.x) dir = -1; //dir == izq
-
-            let controlPoint1 = new Phaser.Math.Vector2(this.x + 30 * dir, y - 200);
-            let controlPoint2 = new Phaser.Math.Vector2(this.x + 60 * dir, y - 400);
+            this.flipX = (x < this.x);
+           
+            let startPoint = new Phaser.Math.Vector2(this.x, this.y); 
+            let controlPoint1 = new Phaser.Math.Vector2(this.x + (x - this.x) * 0.5, y - Math.abs(y - this.y));
+            let controlPoint2 = new Phaser.Math.Vector2(this.x + (x - this.x) * 0.8, y - Math.abs(y - this.y));
             let endPoint = new Phaser.Math.Vector2(x, y);
 
             curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
             
             let player = this;
+            let tiempo = Math.sqrt(Math.pow((this.x -x), 2) + Math.pow((this.y-y), 2));
+
             this.scene.tweens.add({
                 onComplete: function(){
                     player.jumping = false;
@@ -133,7 +133,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
                 },
                 targets: path,
                 t: 1,
-                duration: 1000
+                duration: tiempo * 1.5
             });
         }
     }

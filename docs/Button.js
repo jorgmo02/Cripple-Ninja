@@ -5,8 +5,8 @@ export default class Button extends Phaser.GameObjects.Sprite{
         super(scene, x, y, sprite);
         this.setInteractive();
 
-        this.ninja = ninja;
-
+        this.ninja = ninja;        
+        this.setScale(0.25, 0.25);
         console.log("boton creado");
         scene.add.existing(this);
         this.mouse = scene.input.activePointer;

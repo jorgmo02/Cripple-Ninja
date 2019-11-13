@@ -32,6 +32,12 @@ export default class Game extends Phaser.Scene {
 
         let button = new Button(this, 700, 375, 'button', miNinja);
         let button2 = new Button(this, 1200, 500, 'button', miNinja);
+        let button3 = new Button(this, 1400, 500, 'button', miNinja);
+
+        let button5 = new Button(this, 900, 600, 'button', miNinja);
+        let button4 = new Button(this, 400, 700, 'button', miNinja);
+        let button6 = new Button(this, 900*4, 600, 'button', miNinja);
+
     }
 
     noDejarQueEscape() {
