@@ -7,37 +7,37 @@ export default class Game extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("background", "./resources/background.png");
+        //this.load.image("background", "./resources/background.png");
         this.load.image("button", "./resources/play.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
         this.input.mouse.disableContextMenu();
-        this.load.tilemapTiledJSON('tilemap', './resources/MaPatata.json');
-        this.load.image('patronesTilemap', './resources/Tileset.tsx');
+        this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno.json');
+        this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
     }
 
     create() {
         //this.background = this.add.image(0, 0,'background');
         //this.background.setOrigin(0,0);
 
-        this.map = this.add.tilemap({ 
+        this.map = this.make.tilemap({ 
             key: 'tilemap', 
-            //tileWidth: 128, 
-            //tileHeight: 128 
           });
-        this.map.addTilesetImage('patrones', 'patronesTilemap');
-        
-        this.physics.world.setBounds(0,0,2*1920,1080);
-        this.cameras.main.setBounds(0,0,2*1920,1080);
+        let tileset = this.map.addTilesetImage('TileSetPrueba', 'patronesTilemap');
+       
+        let skyLayer = this.map.createStaticLayer('Cielo', tileset,0,0);
+        let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
 
+        groundLayer.setCollisionBetween(0,10);
+        
+        this.physics.world.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
+        this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setSize(1400,800);
         
-        
-        let miNinja = new Player (this, 700, 500, "ninja", 6);
+        let miNinja = new Player (this, 150, 700, "ninja", 6);
+        this.physics.add.collider(miNinja, groundLayer);
 
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
-        
-        //this.miNinja.Hide();
 
         let button = new Button(this, 700, 375, 'button', miNinja);
         let button2 = new Button(this, 1200, 500, 'button', miNinja);
@@ -47,6 +47,9 @@ export default class Game extends Phaser.Scene {
         let button4 = new Button(this, 400, 700, 'button', miNinja);
         let button6 = new Button(this, 900*4, 600, 'button', miNinja);
 
+       //var debugGraphics = this.add.graphics();
+       //this.map.renderDebug(debugGraphics);
+
     }
 
     noDejarQueEscape() {
@@ -54,6 +57,9 @@ export default class Game extends Phaser.Scene {
     }
 
     update(time, delta) {
-
+        //console.log(this.map);
+        //console.log('Width in Pixels:' + this.map.widthInPixels);
+        //console.log('Height in Pixels:' + this.map.heightInPixels);
+        
     }
 }
