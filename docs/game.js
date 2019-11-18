@@ -7,59 +7,58 @@ export default class Game extends Phaser.Scene {
     }
 
     preload() {
-        //this.load.image("background", "./resources/background.png");
+        //Carga imagenes
         this.load.image("button", "./resources/play.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
-        this.input.mouse.disableContextMenu();
-        this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno.json');
         this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
+
+        //Carga Tilemap
+        this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno.json');
+
+        //Desactivar menú contextual clic derecho
+        this.input.mouse.disableContextMenu();
     }
 
     create() {
-        //this.background = this.add.image(0, 0,'background');
-        //this.background.setOrigin(0,0);
-
+        //Mapa
         this.map = this.make.tilemap({ 
             key: 'tilemap', 
           });
+
+        //Layers del tilemap
         let tileset = this.map.addTilesetImage('TileSetPrueba', 'patronesTilemap');
-       
         let skyLayer = this.map.createStaticLayer('Cielo', tileset,0,0);
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
-
-        groundLayer.setCollisionBetween(0,10);
+        let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         
+        //Ninja
+        let miNinja = new Player (this, 150, 700, "ninja", 6);
+        
+        //Creación de los "botones"
+        let buttons = this.physics.add.staticGroup();
+        buttonLayer.forEach(object => {
+            let obj = new Button (this, object.x, object.y, 'button', miNinja); 
+            console.log(obj);
+               obj.setScale(object.width/500, object.height/500); 
+               obj.setOrigin(0); 
+            });
+
+        //Colisiones
+        groundLayer.setCollisionBetween(0,10);
+        this.physics.add.collider(miNinja, groundLayer);
         this.physics.world.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setSize(1400,800);
-        
-        let miNinja = new Player (this, 150, 700, "ninja", 6);
-        this.physics.add.collider(miNinja, groundLayer);
 
+        //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
-
-        let button = new Button(this, 700, 375, 'button', miNinja);
-        let button2 = new Button(this, 1200, 500, 'button', miNinja);
-        let button3 = new Button(this, 1400, 500, 'button', miNinja);
-
-        let button5 = new Button(this, 900, 600, 'button', miNinja);
-        let button4 = new Button(this, 400, 700, 'button', miNinja);
-        let button6 = new Button(this, 900*4, 600, 'button', miNinja);
-
-       //var debugGraphics = this.add.graphics();
-       //this.map.renderDebug(debugGraphics);
-
     }
 
     noDejarQueEscape() {
         this.input.mouse.requestPointerLock();
     }
 
-    update(time, delta) {
-        //console.log(this.map);
-        //console.log('Width in Pixels:' + this.map.widthInPixels);
-        //console.log('Height in Pixels:' + this.map.heightInPixels);
-        
+    update(time, delta) {        
     }
 }
