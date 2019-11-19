@@ -64,7 +64,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     }
 
     Jump(x, y){
-        if(this.attached || this.body.onFloor()) {
+        if(!this.jumping && (this.attached || this.body.onFloor())) {
             this.jumping = true;
             //this.jumpsLeft--;
             path = { t: 0, vec: new Phaser.Math.Vector2() };
