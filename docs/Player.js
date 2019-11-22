@@ -1,11 +1,7 @@
-let path;
-let curve;
-
 export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
-
         console.log("player creado");
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
@@ -20,14 +16,17 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.attached = false;
         this.objy = 0;
         this.camera = scene.cameras.main;
+        this.curve; this.createPath(0, 0);;
+        this.path;
+        this.brillando = false;
     }
 
     preUpdate() {
 
         if(this.jumping){
-            curve.getPoint(path.t, path.vec);
-            this.x = path.vec.x;
-            this.y = path.vec.y;
+            this.curve.getPoint(this.path.t, this.path.vec);
+            this.x = this.path.vec.x;
+            this.y = this.path.vec.y;
         }
 
         else if (this.body.onFloor())
@@ -52,6 +51,13 @@ export default class Player extends Phaser.GameObjects.Sprite{
         }
 
         this.mouse.updateWorldPoint(this.camera);
+
+        if(this.brillando)
+            this.curve.draw(this.scene.graphics);
+        else 
+        {
+            //borrar
+        }
     }
 
     Hide() {
@@ -63,20 +69,17 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setVelocityX(0);
     }
 
+    isSeen() {
+        
+    }
+    
     Jump(x, y){
-        if(!this.jumping && (this.attached || this.body.onFloor())) {
+        if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor())) {
             this.jumping = true;
-            //this.jumpsLeft--;
-            path = { t: 0, vec: new Phaser.Math.Vector2() };
+            this.jumpsLeft--;
 
             this.flipX = (x < this.x);
-           
-            let startPoint = new Phaser.Math.Vector2(this.x, this.y); 
-            let controlPoint1 = new Phaser.Math.Vector2(this.x + (x - this.x) * 0.5, y - Math.abs(y - this.y));
-            let controlPoint2 = new Phaser.Math.Vector2(this.x + (x - this.x) * 0.8, y - Math.abs(y - this.y));
-            let endPoint = new Phaser.Math.Vector2(x, y);
 
-            curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
             let tiempo = Math.sqrt(Math.pow((this.x -x), 2) + Math.pow((this.y-y), 2));
 
             let player = this;
@@ -87,10 +90,29 @@ export default class Player extends Phaser.GameObjects.Sprite{
                     player.body.setAllowGravity(false);
                     player.ResetVelocity();
                 },
-                targets: path,
+                targets: this.path,
                 t: 1,
-                duration: tiempo * 1.5
+                duration: tiempo * 1
             });
         }
+    }
+
+    createPath(x, y){
+        this.path = { t: 0, vec: new Phaser.Math.Vector2() };
+        let startPoint = new Phaser.Math.Vector2(this.x, this.y); 
+        let controlPoint1 = new Phaser.Math.Vector2(this.x + (x - this.x) * 0.5, y - Math.abs(y - this.y));
+        let controlPoint2 = new Phaser.Math.Vector2(this.x + (x - this.x) * 0.8, y - Math.abs(y - this.y));
+        let endPoint = new Phaser.Math.Vector2(x, y);
+
+        this.curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
+        console.log(this.curve);
+    }
+
+    HacerQueBrille(x, y) {
+        if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor())) {
+            this.createPath(x, y);
+            this.brillando = true;
+        }
+        else this.brillando = false;
     }
 }

@@ -23,7 +23,8 @@ export default class Game extends Phaser.Scene {
         //Mapa
         this.map = this.make.tilemap({ 
             key: 'tilemap', 
-          });
+        });
+
 
         //Layers del tilemap
         let tileset = this.map.addTilesetImage('TileSetPrueba', 'patronesTilemap');
@@ -31,16 +32,22 @@ export default class Game extends Phaser.Scene {
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         
+        //graphics
+        
+        this.graphics = this.add.graphics();
+        this.graphics.lineStyle(50, "0xFF00FF", 1.0);
+        this.graphics.fillStyle("0xFFFFFF", 1.0);
+        this.graphics.save();
+
         //Ninja
-        let miNinja = new Player (this, 150, 700, "ninja", 6);
+        let miNinja = new Player (this, 150, 700, "ninja", -1);
         
         //Creación de los "botones"
         let buttons = this.physics.add.staticGroup();
         buttonLayer.forEach(object => {
-            let obj = new Button (this, object.x, object.y, 'button', miNinja); 
-            console.log(obj);
-               obj.setScale(object.width/500, object.height/500); 
-               obj.setOrigin(0); 
+            let obj = new Button (this, object.x, object.y, 'button', miNinja);
+            obj.setScale(object.width/500, object.height/500); 
+            obj.setOrigin(0);                
             });
 
         //Colisiones
@@ -53,12 +60,5 @@ export default class Game extends Phaser.Scene {
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
-    }
-
-    noDejarQueEscape() {
-        this.input.mouse.requestPointerLock();
-    }
-
-    update(time, delta) {        
     }
 }
