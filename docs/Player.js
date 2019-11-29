@@ -19,6 +19,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.curve; this.createPath(0, 0);;
         this.path;
         this.brillando = false;
+        this.button = null;
     }
 
     preUpdate() {
@@ -47,6 +48,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         
         if(this.attached && this.mouse.rightButtonDown()){
             this.attached = false;
+            this.button = null;
             this.body.setAllowGravity(true);
         }
 
@@ -69,29 +71,37 @@ export default class Player extends Phaser.GameObjects.Sprite{
         
     }
     
-    Jump(x, y){
-        if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor())) {
-            this.jumping = true;
-            this.jumpsLeft--;
+    Jump(button){
+        if(this.button !== button)
+        {
+            let x = button.x;
+            let y = button.y;
+            this.button = button;
+            if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor()))
+            {
+                this.jumping = true;
+                this.jumpsLeft--;
 
-            this.flipX = (x < this.x);
+                this.flipX = (x < this.x);
+                
+                this.LimpiarBrillitos();
+                this.createPath(x, y);
 
-            this.createPath(x, y);
+                let tiempo = Math.sqrt(Math.pow((this.x -x), 2) + Math.pow((this.y-y), 2));
 
-            let tiempo = Math.sqrt(Math.pow((this.x -x), 2) + Math.pow((this.y-y), 2));
-
-            let player = this;
-            this.scene.tweens.add({
-                onComplete: function(){
-                    player.jumping = false;
-                    player.attached = true;
-                    player.body.setAllowGravity(false);
-                    player.ResetVelocity();
-                },
-                targets: this.path,
-                t: 1,
-                duration: tiempo * 1
-            });
+                let player = this;
+                this.scene.tweens.add({
+                    onComplete: function(){
+                        player.jumping = false;
+                        player.attached = true;
+                        player.body.setAllowGravity(false);
+                        player.ResetVelocity();
+                    },
+                    targets: this.path,
+                    t: 1,
+                    duration: tiempo * 1
+                });
+            }
         }
     }
 
