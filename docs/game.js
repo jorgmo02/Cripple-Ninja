@@ -37,7 +37,6 @@ export default class Game extends Phaser.Scene {
         this.graphics = this.add.graphics();
         this.graphics.lineStyle(50, "0xFF00FF", 1.0);
         this.graphics.fillStyle("0xFFFFFF", 1.0);
-        this.graphics.save();
 
         //Ninja
         let miNinja = new Player (this, 150, 700, "ninja", -1);

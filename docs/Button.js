@@ -6,7 +6,7 @@ export default class Button extends Phaser.GameObjects.Sprite{
         this.setInteractive();
         this.setOrigin(0.5)
 
-        this.ninja = ninja;        
+        this.ninja = ninja;
         this.setScale(0.25, 0.25);
         scene.add.existing(this);
         this.mouse = scene.input.activePointer;
@@ -18,7 +18,11 @@ export default class Button extends Phaser.GameObjects.Sprite{
         } , this);
 
         this.on('pointerover', mouse => {
-            ninja.HacerQueBrille(this.x, this.y);
+            this.ninja.HacerQueBrille(this.x, this.y);
+        } );
+    
+        this.on('pointerout', mouse =>{
+            this.ninja.LimpiarBrillitos();
         } );
     }
 

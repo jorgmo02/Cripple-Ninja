@@ -54,10 +54,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         if(this.brillando)
             this.curve.draw(this.scene.graphics);
-        else 
-        {
-            //borrar
-        }
     }
 
     Hide() {
@@ -79,6 +75,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
             this.jumpsLeft--;
 
             this.flipX = (x < this.x);
+
+            this.createPath(x, y);
 
             let tiempo = Math.sqrt(Math.pow((this.x -x), 2) + Math.pow((this.y-y), 2));
 
@@ -105,14 +103,20 @@ export default class Player extends Phaser.GameObjects.Sprite{
         let endPoint = new Phaser.Math.Vector2(x, y);
 
         this.curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
-        console.log(this.curve);
     }
 
     HacerQueBrille(x, y) {
+        this.LimpiarBrillitos();
         if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor())) {
             this.createPath(x, y);
             this.brillando = true;
         }
-        else this.brillando = false;
+    }
+
+    LimpiarBrillitos() {
+        this.scene.graphics.clear();
+        this.scene.graphics.lineStyle(50, "0xFF00FF", 1.0);
+        this.scene.graphics.fillStyle("0xFFFFFF", 1.0);
+        this.brillando = false;
     }
 }
