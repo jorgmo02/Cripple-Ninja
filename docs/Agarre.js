@@ -1,4 +1,4 @@
-export default class Button extends Phaser.GameObjects.Sprite{
+export default class Agarre extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, ninja) {
 

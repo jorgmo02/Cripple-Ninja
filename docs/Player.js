@@ -19,7 +19,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.curve; this.createPath(0, 0);;
         this.path;
         this.brillando = false;
-        this.button = null;
+        this.agarre = null;
     }
 
     preUpdate() {
@@ -32,6 +32,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         else if (this.body.onFloor())
         {
+            this.agarre = null;
             let objX = this.mouse.worldX;
             if (this.mouse.rightButtonDown() && objX-this.x > this.offsetX) {
                 this.body.setVelocityX(this.speed);
@@ -48,7 +49,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         
         if(this.attached && this.mouse.rightButtonDown()){
             this.attached = false;
-            this.button = null;
+            this.agarre = null;
             this.body.setAllowGravity(true);
         }
 
@@ -71,12 +72,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
         
     }
     
-    Jump(button){
-        if(this.button !== button)
+    Jump(agarre){
+        if(this.agarre !== agarre)
         {
-            let x = button.x;
-            let y = button.y;
-            this.button = button;
+            let x = agarre.x;
+            let y = agarre.y;
+            this.agarre = agarre;
             if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor()))
             {
                 this.jumping = true;

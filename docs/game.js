@@ -1,5 +1,5 @@
 import Player from './Player.js';
-import Button from './Button.js';
+import Agarre from './Agarre.js';
 export default class Game extends Phaser.Scene {
 
     constructor() {
@@ -41,10 +41,10 @@ export default class Game extends Phaser.Scene {
         //Ninja
         let miNinja = new Player (this, 150, 700, "ninja", -1);
         
-        //Creación de los "botones"
-        let buttons = this.physics.add.staticGroup();
+        //Creación de los agarres
+        let agarres = this.physics.add.staticGroup();
         buttonLayer.forEach(object => {
-            let obj = new Button (this, object.x, object.y, 'button', miNinja);
+            let obj = new Agarre (this, object.x, object.y, 'button', miNinja);
             obj.setScale(object.width/500, object.height/500); 
             obj.setOrigin(0);                
             });
