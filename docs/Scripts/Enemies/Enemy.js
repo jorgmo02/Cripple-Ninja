@@ -7,7 +7,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
         this.group = this.physics.add.group();
         this.seeingPlayer = false;
 
-        this.physics.add.overlap(this.group, ninja.sprite, (e) => {
+        this.physics.add.overlap(this.group, ninja.sprite, () => {
             this.seeingPlayer = true;
         });
     }

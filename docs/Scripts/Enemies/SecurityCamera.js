@@ -1,4 +1,4 @@
-import Enemy from "../Enemy";
+import Enemy from "./StaticEnemy.js";
 
 export default class SecurityCamera extends Enemy{
     constructor(scene, x, y, sprite, ninja){

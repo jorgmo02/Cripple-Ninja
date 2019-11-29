@@ -1,4 +1,4 @@
-import Enemy from "../Enemy";
+import Enemy from "./Enemy";
 
 export default class Yakuza extends Enemy{
     constructor(scene, x, y, sprite, ninja){
