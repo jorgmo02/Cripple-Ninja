@@ -1,6 +1,8 @@
 import Player from './Player.js';
 import Agarre from './Agarre.js';
 import MobileEnemy from './Enemies/MobileEnemy.js';
+import Yakuza from './Enemies/Yakuza.js';
+import VisionTrigger from './VisionTrigger.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -14,6 +16,7 @@ export default class Game extends Phaser.Scene {
         this.load.image('ninja', './resources/CrippleNinja.png');
         this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
         this.load.image("Yakuza", './resources/Yakuza.png');
+        this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno.json');
@@ -43,6 +46,7 @@ export default class Game extends Phaser.Scene {
 
         //Ninja
         let miNinja = new Player (this, 150, 700, "ninja", -1);
+        this.ninja = miNinja;
         
         //Creación de los agarres
         let agarres = this.physics.add.staticGroup();
@@ -64,9 +68,19 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.followOffset.x = -300;
 
         //Enemies
-        this.yakuza = new MobileEnemy(this, 300, 1000, 'Yakuza');
-        this.physics.add.collider(this.yakuza, groundLayer);
-        this.physics.add.collider(this.yakuza, miNinja);
+        this.yakuza = new MobileEnemy(this, 0, 0 , 'Yakuza');
+        this.yakuzaVision = new VisionTrigger(this, 100, 0, 'VisionTrigger');
 
+        this.yakuzaContainer = new Yakuza(this, 500, 1300, [this.yakuza, this.yakuzaVision]);
+
+        this.physics.add.collider(this.yakuza, groundLayer);
+        //this.physics.add.collider(this.yakuza, miNinja);
+        //this.physics.add.overlap(this.yakuzaVision, miNinja, this.NinjaDetected());
+
+    }
+
+    NinjaDetected(){
+        this.ninja.isSeen = true;
+        console.log("Ninja detectado");
     }
 }
