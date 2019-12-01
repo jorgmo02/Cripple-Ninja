@@ -1,5 +1,7 @@
 import Player from './Player.js';
 import Agarre from './Agarre.js';
+import MobileEnemy from './Enemies/MobileEnemy.js';
+
 export default class Game extends Phaser.Scene {
 
     constructor() {
@@ -11,6 +13,7 @@ export default class Game extends Phaser.Scene {
         this.load.image("button", "./resources/play.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
         this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
+        this.load.image("Yakuza", './resources/Yakuza.png');
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno.json');
@@ -59,5 +62,11 @@ export default class Game extends Phaser.Scene {
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
+
+        //Enemies
+        this.yakuza = new MobileEnemy(this, 300, 1000, 'Yakuza');
+        this.physics.add.collider(this.yakuza, groundLayer);
+        this.physics.add.collider(this.yakuza, miNinja);
+
     }
 }
