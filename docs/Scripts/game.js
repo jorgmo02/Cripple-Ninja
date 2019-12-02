@@ -72,10 +72,12 @@ export default class Game extends Phaser.Scene {
         this.yakuzaVision = new VisionTrigger(this, 100, 0, 'VisionTrigger');
 
         this.yakuzaContainer = new Yakuza(this, 500, 1300, [this.yakuza, this.yakuzaVision]);
+        
+        //Overlap con el trigger
+        this.physics.add.overlap(miNinja, this.yakuzaContainer.list[1], () => {
+            this.NinjaDetected();
+        });
 
-        this.physics.add.collider(this.yakuza, groundLayer);
-        //this.physics.add.collider(this.yakuza, miNinja);
-        //this.physics.add.overlap(this.yakuzaVision, miNinja, this.NinjaDetected());
 
     }
 
@@ -83,4 +85,6 @@ export default class Game extends Phaser.Scene {
         this.ninja.isSeen = true;
         console.log("Ninja detectado");
     }
+
+    
 }

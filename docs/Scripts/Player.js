@@ -20,6 +20,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.path;
         this.brillando = false;
         this.agarre = null;
+        this.isSeen = false;
     }
 
     preUpdate() {
@@ -57,6 +58,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         if(this.brillando)
             this.curve.draw(this.scene.graphics);
+
+        if(this.isSeen){
+            console.log("Has perdido bitch");
+        }
     }
 
     Hide() {
