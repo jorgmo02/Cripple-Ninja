@@ -17,9 +17,10 @@ export default class Game extends Phaser.Scene {
         this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
+        this.load.image('Pinchos', './resources/TemporaryTrap.png');
 
         //Carga Tilemap
-        this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno.json');
+        this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno2.json');
 
         //Desactivar menú contextual clic derecho
         this.input.mouse.disableContextMenu();
@@ -37,6 +38,7 @@ export default class Game extends Phaser.Scene {
         let skyLayer = this.map.createStaticLayer('Cielo', tileset,0,0);
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
+        let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
         
         //graphics
         
@@ -49,12 +51,28 @@ export default class Game extends Phaser.Scene {
         this.ninja = miNinja;
         
         //Creación de los agarres
-        let agarres = this.physics.add.staticGroup();
+        //let agarres = this.physics.add.staticGroup(); //NO HACE FALTA PORQUE NO INTERACTÚAN FÍSICAMENTE
         buttonLayer.forEach(object => {
             let obj = new Agarre (this, object.x, object.y, 'button', miNinja);
-            obj.setScale(object.width/500, object.height/500); 
+            obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0);                
-            });
+        });
+        
+        //Creación de las trampas
+        let trampas = this.physics.add.staticGroup();
+        trapLayer.forEach(object => {
+            let obj = this.add.sprite(object.x, object.y, 'Pinchos');
+            obj.setScale(object.width/500, object.height/500);//Esto no haría falta una vez que tuviesemos sprites definitivos
+            obj.setSize(128,64); //Esto no haría falta una vez que tuviesemos sprites definitivos
+            obj.setOrigin(0);
+            trampas.add(obj, [this]);
+            obj.body.setSize(50,50);
+        });
+
+        this.physics.add.collider(miNinja, trampas, ()=>{
+            this.NinjaDetected();
+        })
+    
 
         //Colisiones
         groundLayer.setCollisionBetween(0,10);
@@ -70,7 +88,6 @@ export default class Game extends Phaser.Scene {
         //Enemies
         this.yakuza = new MobileEnemy(this, 0, 0 , 'Yakuza');
         this.yakuzaVision = new VisionTrigger(this, 100, 0, 'VisionTrigger');
-
         this.yakuzaContainer = new Yakuza(this, 500, 1300, [this.yakuza, this.yakuzaVision]);
         
         //Overlap con el trigger
