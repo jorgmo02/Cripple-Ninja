@@ -1,15 +1,15 @@
 import MobileEnemy from './MobileEnemy.js';
 import VisionTrigger from '../VisionTrigger.js';
+import ObjetoAgarrable from "../ObjetoAgarrable.js";
 
 export default class Yakuza extends Phaser.GameObjects.Container{
     constructor(scene, x, y, EnemyType, VisionTrigger)
     {
-
         super(scene, x, y);
         
         //Añadimos al container
         this.add(EnemyType, VisionTrigger);
-        
+
         //Físicas
         scene.add.existing(this);
         scene.physics.world.enable(this);
@@ -17,8 +17,9 @@ export default class Yakuza extends Phaser.GameObjects.Container{
         this.body.setAllowGravity(false);
         
         //Referencias a los hijos
-        this.enemySprite = this.list[0];//Array de objetos del container
+        this.enemySprite = this.list[0]; //Array de objetos del container
         this.visionRange = this.list[1];
+        this.agarre = this.list[2];
         
         //Atributos
         this.scene = scene;
@@ -28,11 +29,9 @@ export default class Yakuza extends Phaser.GameObjects.Container{
         this.range = 400;
         this.body.setVelocityX(this.speed);
         this.movementLeft = false;
-        
     }
     
     preUpdate(){
-
         if(this.initX + this.range <= this.x){
             this.body.setVelocityX(-this.speed);
             this.enemySprite.flipX = true;
@@ -43,6 +42,5 @@ export default class Yakuza extends Phaser.GameObjects.Container{
             this.enemySprite.flipX = false;
             this.visionRange.x = 100;
         }
-
     }
 }

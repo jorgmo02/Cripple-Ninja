@@ -1,29 +1,10 @@
-export default class Agarre extends Phaser.GameObjects.Sprite{
+export default class Agarre extends Phaser.GameObjects.GameObject{
 
-    constructor(scene, x,y, sprite, ninja) {
-
-        super(scene, x, y, sprite);
-        this.setInteractive();
-        this.setOrigin(0.5)
-
-        this.ninja = ninja;
-        this.setScale(0.25, 0.25);
+    constructor(scene, x, y, ninja) {
+        super(scene, x, y);
+        this.x = x; this.y = y;
         scene.add.existing(this);
-        this.mouse = scene.input.activePointer;
-
-        this.on('pointerdown', mouse => {
-            if (mouse.leftButtonDown()) {
-                this.onClick();
-            }
-        } , this);
-
-        this.on('pointerover', mouse => {
-            this.ninja.HacerQueBrille(this.x, this.y);
-        } );
-    
-        this.on('pointerout', mouse =>{
-            this.ninja.LimpiarBrillitos();
-        } );
+        this.ninja = ninja;
     }
 
     onClick() {

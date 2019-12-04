@@ -3,6 +3,7 @@ import Agarre from './Agarre.js';
 import MobileEnemy from './Enemies/MobileEnemy.js';
 import Yakuza from './Enemies/Yakuza.js';
 import VisionTrigger from './VisionTrigger.js';
+import ObjetoAgarrable from './ObjetoAgarrable.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -13,6 +14,7 @@ export default class Game extends Phaser.Scene {
     preload() {
         //Carga imagenes
         this.load.image("button", "./resources/play.png");
+        this.load.image("invisible", "./resources/Transparente.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
         this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
         this.load.image("Yakuza", './resources/Yakuza.png');
@@ -32,16 +34,14 @@ export default class Game extends Phaser.Scene {
             key: 'tilemap', 
         });
 
-
         //Layers del tilemap
         let tileset = this.map.addTilesetImage('TileSetPrueba', 'patronesTilemap');
         let skyLayer = this.map.createStaticLayer('Cielo', tileset,0,0);
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
-        
+
         //graphics
-        
         this.graphics = this.add.graphics();
         this.graphics.lineStyle(50, "0xFF00FF", 1.0);
         this.graphics.fillStyle("0xFFFFFF", 1.0);
@@ -49,15 +49,15 @@ export default class Game extends Phaser.Scene {
         //Ninja
         let miNinja = new Player (this, 150, 700, "ninja", -1);
         this.ninja = miNinja;
-        
+
         //Creación de los agarres
         //let agarres = this.physics.add.staticGroup(); //NO HACE FALTA PORQUE NO INTERACTÚAN FÍSICAMENTE
         buttonLayer.forEach(object => {
-            let obj = new Agarre (this, object.x, object.y, 'button', miNinja);
+            let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja);
             obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
-            obj.setOrigin(0);                
-        });
-        
+            obj.setOrigin(0);
+            });
+            
         //Creación de las trampas
         let trampas = this.physics.add.staticGroup();
         trapLayer.forEach(object => {
@@ -71,8 +71,7 @@ export default class Game extends Phaser.Scene {
 
         this.physics.add.collider(miNinja, trampas, ()=>{
             this.NinjaDetected();
-        })
-    
+        });
 
         //Colisiones
         groundLayer.setCollisionBetween(0,10);
@@ -86,15 +85,17 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.followOffset.x = -300;
 
         //Enemies
-        this.yakuza = new MobileEnemy(this, 0, 0 , 'Yakuza');
+        let posX = 500; let posY = 1300;
+        this.yakuza = new MobileEnemy(this, 0, 0, 'Yakuza');
         this.yakuzaVision = new VisionTrigger(this, 100, 0, 'VisionTrigger');
-        this.yakuzaContainer = new Yakuza(this, 500, 1300, [this.yakuza, this.yakuzaVision]);
-        
+        this.yakuzaAgarre = new ObjetoAgarrable(this, 0, 0, 'invisible', miNinja);
+
+        this.yakuzaContainer = new Yakuza(this, posX, posY, [this.yakuza, this.yakuzaVision, this.yakuzaAgarre]);
+
         //Overlap con el trigger
         this.physics.add.overlap(miNinja, this.yakuzaContainer.list[1], () => {
             this.NinjaDetected();
         });
-
 
     }
 
@@ -102,6 +103,4 @@ export default class Game extends Phaser.Scene {
         this.ninja.isSeen = true;
         console.log("Ninja detectado");
     }
-
-    
 }
