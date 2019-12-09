@@ -1,11 +1,20 @@
-import MobileEnemy from './MobileEnemy.js';
+import EnemyWithTriggerVision from './EnemyWithVisionTrigger.js';
 
-export default class Dron extends MobileEnemy{
+export default class Dron extends EnemyWithTriggerVision{
     constructor(scene, x, y, EnemyType, miNinja){
-        super(scene, x, y, EnemyType, miNinja, 0, 300, 0, 150, 0, 50, 25, 200);
+        super(scene, x, y, EnemyType, miNinja, 0, 50, 25, 200);
+
+        this.rangeY = 300;
+        this.speedY = 150;
+        this.body.setVelocityY(this.speedY);
     }
 
     preUpdate(){
-        super.Move();
+        if(this.initY + this.rangeY <= this.y){
+            this.body.setVelocityY(-this.speedY);
+        }
+        else if(this.initY >= this.y){
+            this.body.setVelocityY(this.speedY);
+        }
     }
 }

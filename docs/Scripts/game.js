@@ -1,10 +1,8 @@
 import Player from './Player.js';
-import Agarre from './Agarre.js';
-import MobileEnemy from './Enemies/MobileEnemy.js';
 import Yakuza from './Enemies/Yakuza.js';
-import VisionTrigger from './VisionTrigger.js';
 import ObjetoAgarrable from './ObjetoAgarrable.js';
 import Dron from './Enemies/Dron.js';
+import SecurityCamera from './Enemies/SecurityCamera.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -91,12 +89,14 @@ export default class Game extends Phaser.Scene {
         this.playerDetection = this.physics.add.group();
         this.yakuzaContainer = new Yakuza(this, posX, posY, 'Yakuza', 'invisible', miNinja);
         this.droneContainer = new Dron(this, 300, 900, 'Dron', miNinja);
+        this.cameraContainer = new SecurityCamera(this, 400, 900, 'Dron', miNinja);
 
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
             this.NinjaDetected();
         })
 
     }
+
 
     NinjaDetected(){
         this.ninja.isSeen = true;
