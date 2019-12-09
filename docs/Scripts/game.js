@@ -4,6 +4,7 @@ import MobileEnemy from './Enemies/MobileEnemy.js';
 import Yakuza from './Enemies/Yakuza.js';
 import VisionTrigger from './VisionTrigger.js';
 import ObjetoAgarrable from './ObjetoAgarrable.js';
+import Dron from './Enemies/Dron.js';
 
 export default class Game extends Phaser.Scene {
 
@@ -20,6 +21,7 @@ export default class Game extends Phaser.Scene {
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
+        this.load.image('Dron', '../resources/temporaryDrone.jpg');
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno2.json');
@@ -86,16 +88,19 @@ export default class Game extends Phaser.Scene {
 
         //Enemies
         let posX = 500; let posY = 1300;
-        this.yakuza = new MobileEnemy(this, 0, 0, 'Yakuza');
-        this.yakuzaVision = new VisionTrigger(this, 100, 0, 'VisionTrigger');
-        this.yakuzaAgarre = new ObjetoAgarrable(this, 0, 0, 'invisible', miNinja);
+        this.yakuzaContainer = new Yakuza(this, posX, posY, 'Yakuza', 'VisionTrigger', 'invisible', miNinja);
 
-        this.yakuzaContainer = new Yakuza(this, posX, posY, [this.yakuza, this.yakuzaVision, this.yakuzaAgarre]);
+        this.droneContainer = new Dron(this, 300, 900, 'Dron', 'VisionTrigger', miNinja);
 
         //Overlap con el trigger
+        //Habría que meter todos los trigers en el mismo grupo y ahí crear el overlap
         this.physics.add.overlap(miNinja, this.yakuzaContainer.list[1], () => {
             this.NinjaDetected();
+            
         });
+        this.physics.add.overlap(miNinja, this.droneContainer.list[1], () =>{
+            this.NinjaDetected();
+        })
 
     }
 
