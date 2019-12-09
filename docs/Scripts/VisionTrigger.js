@@ -1,16 +1,16 @@
-export default class VisionTrigger extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, sprite, ninja,){
+export default class VisionTrigger extends Phaser.GameObjects.Zone {
+    constructor(scene, x, y, sizeX, sizeY){
         
-        super(scene,x,y,sprite);
+        super(scene,x,y, [sizeX], [sizeY]);
         scene.add.existing(this);
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
         this.body.setAllowGravity(false);
+        this.body.moves = false;
         this.initX = x;
-        this.scaleX = 7;
-        this.scaleY = 3;
-        this.setScale(this.scaleX,this.scaleY);
-        this.setOrigin(0,0);
+        this.initY = y;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
     }
 
     returnPositionTriggerX(){return this.initX;}
