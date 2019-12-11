@@ -46,6 +46,7 @@ export default class LevelScene extends Phaser.Scene{
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
+        let EndLevel = this.map.getObjectLayer('FinJuego')['objects'];
 
         //graphics
         this.graphics = this.add.graphics();
@@ -74,9 +75,23 @@ export default class LevelScene extends Phaser.Scene{
             obj.body.setSize(50,50);
         });
 
+        //Creación del trigger del fin del juego
+        let endTrigger = this.physics.add.staticGroup();
+        EndLevel.forEach(object=>{
+            let trigger = this.add.sprite(object.x, object.y, 'invisible');
+            trigger.setOrigin(0,0);
+            endTrigger.add(trigger, [this]);
+        });
+
         //Colision entre trampas y jugador
         this.physics.add.collider(miNinja, trampas, ()=>{
             this.NinjaDetected();
+        });
+
+        //Colision entre Trigger del fin del juego y el player
+        this.physics.add.overlap(miNinja, endTrigger, ()=>{
+            this.scene.start('mainMenu'); //Sería al siguiente nivel, pero de momento te lleva al menú principal
+            console.log("Ganaste");
         });
 
         //Colisiones
