@@ -19,7 +19,8 @@ export default class Game extends Phaser.Scene {
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
-        this.load.image('Dron', '../resources/temporaryDrone.jpg');
+        this.load.image('Dron', './resources/temporaryDrone.jpg');
+        this.load.image('RestartButton', './resources/RestartButton.png');
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno2.json');
@@ -55,7 +56,7 @@ export default class Game extends Phaser.Scene {
         buttonLayer.forEach(object => {
             let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja);
             obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
-            obj.setOrigin(0);
+            obj.setOrigin(0.5,0.5);
             });
             
         //Creación de las trampas
@@ -80,6 +81,13 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setSize(1400,800);
 
+        //Boton de reiniciar nivel
+        this.restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
+        this.restartButton.setOrigin(0,0);
+        this.restartButton.setScrollFactor(0); //Para que se mueva con la camara
+        this.restartButton.setInteractive();
+        this.restartButton.on('pointerdown',() => {this.scene.restart();});
+
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
@@ -91,16 +99,18 @@ export default class Game extends Phaser.Scene {
         this.droneContainer = new Dron(this, 300, 900, 'Dron', miNinja);
         this.cameraContainer = new SecurityCamera(this, 400, 900, 'Dron', miNinja);
 
+        //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
             this.NinjaDetected();
+            
         })
 
     }
 
-
     NinjaDetected(){
         this.ninja.isSeen = true;
         console.log("Ninja detectado");
+        this.scene.restart();
     }
 
     addTiggerToPhysicsGroup(trigger){

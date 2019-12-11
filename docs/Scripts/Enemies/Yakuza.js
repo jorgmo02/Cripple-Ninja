@@ -4,7 +4,7 @@ import ObjetoAgarrable from "../ObjetoAgarrable.js";
 export default class Yakuza extends EnemyWithTriggerVision{
     constructor(scene, x, y, EnemyType, Agarre, miNinja)
     {
-        super(scene,x,y,EnemyType, miNinja, 0, 0, 400, 50);
+        super(scene,x,y,EnemyType, miNinja, 0, 0, 300, 50);
         
         //super(scene, x, y, EnemyType, miNinja, 600, 0, 100, 0, 0, 0, 400, 50);
         this.rangeX = 600;
