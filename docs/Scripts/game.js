@@ -82,11 +82,11 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.setSize(1400,800);
 
         //Boton de reiniciar nivel
-        this.restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
-        this.restartButton.setOrigin(0,0);
-        this.restartButton.setScrollFactor(0); //Para que se mueva con la camara
-        this.restartButton.setInteractive();
-        this.restartButton.on('pointerdown',() => {this.scene.restart();});
+        let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
+        restartButton.setOrigin(0,0);
+        restartButton.setScrollFactor(0); //Para que se mueva con la camara
+        restartButton.setInteractive();
+        restartButton.on('pointerdown',() => {this.scene.restart();});
 
         //Follow Player
         this.cameras.main.startFollow(miNinja);
@@ -102,7 +102,6 @@ export default class Game extends Phaser.Scene {
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
             this.NinjaDetected();
-            
         })
 
     }
