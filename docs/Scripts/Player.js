@@ -2,10 +2,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
-        console.log("player creado");
+        //Físicas
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
+
+        //Atributos
         this.mouse = scene.input.activePointer;
         this.speed = 500;
         this.jumpSpeed = -1.75;

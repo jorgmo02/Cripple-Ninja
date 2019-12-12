@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="20" height="12" tilewidth="128" tileheight="128" infinite="0" nextlayerid="5" nextobjectid="15">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="20" height="12" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="21">
+ <editorsettings>
+  <export target="MapaConTriggerTry2.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="TileSetPrueba.json"/>
  <layer id="2" name="Cielo" width="20" height="12">
   <data encoding="base64">
@@ -22,5 +25,13 @@
   <object id="9" gid="6" x="524" y="248" width="128" height="128"/>
   <object id="10" gid="6" x="1036" y="384" width="128" height="128"/>
   <object id="11" gid="6" x="2312" y="380" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="5" name="FinJuego">
+  <object id="15" gid="2" x="2432" y="1404" width="128" height="128"/>
+  <object id="16" gid="2" x="2432" y="1272" width="128" height="128"/>
+  <object id="17" gid="2" x="2432" y="1144" width="128" height="128"/>
+  <object id="18" gid="2" x="2432" y="1016" width="128" height="128"/>
+  <object id="19" gid="2" x="2436" y="892" width="128" height="128"/>
+  <object id="20" gid="2" x="2432" y="764" width="128" height="128"/>
  </objectgroup>
 </map>

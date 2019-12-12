@@ -4,14 +4,17 @@ import ObjetoAgarrable from './ObjetoAgarrable.js';
 import Dron from './Enemies/Dron.js';
 import SecurityCamera from './Enemies/SecurityCamera.js';
 
-export default class Game extends Phaser.Scene {
-
-    constructor() {
-        super({ key: 'main' });
+export default class LevelScene extends Phaser.Scene{
+    constructor(mapJson, LevelKey, ninjaX, ninjaY, levelJumps){
+        super({ key: LevelKey });
+        this.jsonString = mapJson;
+        this.initNinjaX = ninjaX;
+        this.initNinjaY = ninjaY;
+        this.levelJumps = levelJumps;
     }
 
-    preload() {
-        //Carga imagenes
+    preload(){
+        //Carga imágenes
         this.load.image("button", "./resources/play.png");
         this.load.image("invisible", "./resources/Transparente.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
@@ -23,24 +26,27 @@ export default class Game extends Phaser.Scene {
         this.load.image('RestartButton', './resources/RestartButton.png');
 
         //Carga Tilemap
-        this.load.tilemapTiledJSON('tilemap', './resources/maps/MapaBueno2.json');
+        this.load.tilemapTiledJSON('tilemap', this.jsonString);
 
         //Desactivar menú contextual clic derecho
         this.input.mouse.disableContextMenu();
     }
 
-    create() {
+
+    create(){
         //Mapa
         this.map = this.make.tilemap({ 
             key: 'tilemap', 
         });
 
         //Layers del tilemap
+        //LLAMAR A TODAS LAS LAYER EN TILES COMO ESTAS 
         let tileset = this.map.addTilesetImage('TileSetPrueba', 'patronesTilemap');
-        let skyLayer = this.map.createStaticLayer('Cielo', tileset,0,0);
+        this.map.createStaticLayer('Cielo', tileset,0,0);
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
+        let EndLevel = this.map.getObjectLayer('FinJuego')['objects'];
 
         //graphics
         this.graphics = this.add.graphics();
@@ -48,16 +54,15 @@ export default class Game extends Phaser.Scene {
         this.graphics.fillStyle("0xFFFFFF", 1.0);
 
         //Ninja
-        let miNinja = new Player (this, 150, 700, "ninja", -1);
+        let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, "ninja", this.levelJumps);
         this.ninja = miNinja;
 
         //Creación de los agarres
-        //let agarres = this.physics.add.staticGroup(); //NO HACE FALTA PORQUE NO INTERACTÚAN FÍSICAMENTE
         buttonLayer.forEach(object => {
             let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja);
             obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0.5,0.5);
-            });
+        });
             
         //Creación de las trampas
         let trampas = this.physics.add.staticGroup();
@@ -70,8 +75,23 @@ export default class Game extends Phaser.Scene {
             obj.body.setSize(50,50);
         });
 
+        //Creación del trigger del fin del juego
+        let endTrigger = this.physics.add.staticGroup();
+        EndLevel.forEach(object=>{
+            let trigger = this.add.sprite(object.x, object.y, 'invisible');
+            trigger.setOrigin(0,0);
+            endTrigger.add(trigger, [this]);
+        });
+
+        //Colision entre trampas y jugador
         this.physics.add.collider(miNinja, trampas, ()=>{
             this.NinjaDetected();
+        });
+
+        //Colision entre Trigger del fin del juego y el player
+        this.physics.add.overlap(miNinja, endTrigger, ()=>{
+            this.scene.start('mainMenu'); //Sería al siguiente nivel, pero de momento te lleva al menú principal
+            console.log("Ganaste");
         });
 
         //Colisiones
@@ -82,17 +102,18 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.setSize(1400,800);
 
         //Boton de reiniciar nivel
-        this.restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
-        this.restartButton.setOrigin(0,0);
-        this.restartButton.setScrollFactor(0); //Para que se mueva con la camara
-        this.restartButton.setInteractive();
-        this.restartButton.on('pointerdown',() => {this.scene.restart();});
+        let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
+        restartButton.setOrigin(0,0);
+        restartButton.setScrollFactor(0); //Para que se mueva con la camara
+        restartButton.setInteractive();
+        restartButton.on('pointerdown',() => {this.scene.restart();});
 
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
 
         //Enemies
+        //Esto hasta que en cada escena coloquemos a los enemigos en el mapa
         let posX = 500; let posY = 1300;
         this.playerDetection = this.physics.add.group();
         this.yakuzaContainer = new Yakuza(this, posX, posY, 'Yakuza', 'invisible', miNinja);
@@ -102,11 +123,9 @@ export default class Game extends Phaser.Scene {
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
             this.NinjaDetected();
-            
         })
-
     }
-
+    
     NinjaDetected(){
         this.ninja.isSeen = true;
         console.log("Ninja detectado");
@@ -116,4 +135,6 @@ export default class Game extends Phaser.Scene {
     addTiggerToPhysicsGroup(trigger){
         this.playerDetection.add(trigger);
     }
+
+    
 }
