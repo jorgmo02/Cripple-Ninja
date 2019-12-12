@@ -8,6 +8,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
         scene.physics.world.enable(this);
         this.body.setAllowGravity(false);
+        //this.setOrigin(0,0);
         
     }
 
