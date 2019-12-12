@@ -60,6 +60,7 @@ export default class LevelScene extends Phaser.Scene{
         let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, "ninja", this.levelJumps);
         this.ninja = miNinja;
 
+       
         //Creación de los agarres
         buttonLayer.forEach(object => {
             let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja);
@@ -112,6 +113,10 @@ export default class LevelScene extends Phaser.Scene{
         restartButton.setInteractive();
         restartButton.on('pointerdown',() => {this.scene.restart();});
 
+        //Texto con el número de saltos restantes
+        this.jumpsCounter = this.add.text(1100, this.cameras.main.y + 10, 'Jumps: ' + this.levelJumps, { fontFamily: 'Arial', fontSize: 50, color: '#641e16 ' }).setBackgroundColor('#cd5c5c');
+        this.jumpsCounter.setScrollFactor(0);
+
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
@@ -121,19 +126,19 @@ export default class LevelScene extends Phaser.Scene{
 
         //Camaras
         camerasLayer.forEach(object =>{
-            let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja);
+            let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
 
         //Drones
         droneLayer.forEach(object=>{
-            new Dron(this, object.x, object.y, 'Dron', miNinja);
+            new Dron(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
 
         //Yakuzas
         yakuzaLayer.forEach(object=>{
-            new Yakuza (this, object.x, object.y, 'Yakuza', miNinja);
+            new Yakuza (this, object.x, object.y, 'Yakuza','invisible', miNinja, 'VisionTrigger');
         })
-
+        
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
             this.NinjaDetected();
@@ -148,5 +153,9 @@ export default class LevelScene extends Phaser.Scene{
 
     addTiggerToPhysicsGroup(trigger){
         this.playerDetection.add(trigger);
+    }
+
+    actualizeJumpsText(nJumps){
+        this.jumpsCounter.setText('Jumps: ' + nJumps);
     }
 }
