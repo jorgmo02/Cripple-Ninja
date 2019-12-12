@@ -121,19 +121,19 @@ export default class LevelScene extends Phaser.Scene{
 
         //Camaras
         camerasLayer.forEach(object =>{
-            let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja);
+            let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
 
         //Drones
         droneLayer.forEach(object=>{
-            new Dron(this, object.x, object.y, 'Dron', miNinja);
+            new Dron(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
 
         //Yakuzas
         yakuzaLayer.forEach(object=>{
-            new Yakuza (this, object.x, object.y, 'Yakuza', miNinja);
+            new Yakuza (this, object.x, object.y, 'Yakuza','invisible', miNinja, 'VisionTrigger');
         })
-
+        
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
             this.NinjaDetected();

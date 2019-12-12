@@ -1,8 +1,8 @@
 import EnemyWithTriggerVision from './EnemyWithVisionTrigger.js';
 
 export default class Dron extends EnemyWithTriggerVision{
-    constructor(scene, x, y, EnemyType, miNinja){
-        super(scene, x, y, EnemyType, miNinja, 0, 0, 20, 200);
+    constructor(scene, x, y, EnemyType, miNinja, VisionTrigger){
+        super(scene, x, y, EnemyType, miNinja, 0, 0, 25, 200, VisionTrigger);
 
         this.rangeY = 300;
         this.speedY = 150;
