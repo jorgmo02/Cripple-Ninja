@@ -47,6 +47,9 @@ export default class LevelScene extends Phaser.Scene{
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
         let EndLevel = this.map.getObjectLayer('FinJuego')['objects'];
+        let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
+        let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
+        let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
 
         //graphics
         this.graphics = this.add.graphics();
@@ -83,6 +86,7 @@ export default class LevelScene extends Phaser.Scene{
             endTrigger.add(trigger, [this]);
         });
 
+
         //Colision entre trampas y jugador
         this.physics.add.collider(miNinja, trampas, ()=>{
             this.NinjaDetected();
@@ -113,12 +117,22 @@ export default class LevelScene extends Phaser.Scene{
         this.cameras.main.followOffset.x = -300;
 
         //Enemies
-        //Esto hasta que en cada escena coloquemos a los enemigos en el mapa
-        let posX = 500; let posY = 1300;
         this.playerDetection = this.physics.add.group();
-        this.yakuzaContainer = new Yakuza(this, posX, posY, 'Yakuza', 'invisible', miNinja);
-        this.droneContainer = new Dron(this, 300, 900, 'Dron', miNinja);
-        this.cameraContainer = new SecurityCamera(this, 400, 900, 'Dron', miNinja);
+
+        //Camaras
+        camerasLayer.forEach(object =>{
+            let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja);
+        })
+
+        //Drones
+        droneLayer.forEach(object=>{
+            new Dron(this, object.x, object.y, 'Dron', miNinja);
+        })
+
+        //Yakuzas
+        yakuzaLayer.forEach(object=>{
+            new Yakuza (this, object.x, object.y, 'Yakuza', miNinja);
+        })
 
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
@@ -135,6 +149,4 @@ export default class LevelScene extends Phaser.Scene{
     addTiggerToPhysicsGroup(trigger){
         this.playerDetection.add(trigger);
     }
-
-    
 }

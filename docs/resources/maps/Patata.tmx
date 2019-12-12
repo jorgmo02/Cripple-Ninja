@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="20" height="12" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="21">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="20" height="12" tilewidth="128" tileheight="128" infinite="0" nextlayerid="9" nextobjectid="29">
  <editorsettings>
-  <export target="MapaConTriggerTry2.json" format="json"/>
+  <export target="MapaConYakuzas.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="TileSetPrueba.json"/>
  <layer id="2" name="Cielo" width="20" height="12">
@@ -33,5 +33,18 @@
   <object id="18" gid="2" x="2432" y="1016" width="128" height="128"/>
   <object id="19" gid="2" x="2436" y="892" width="128" height="128"/>
   <object id="20" gid="2" x="2432" y="764" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="6" name="Camaras">
+  <object id="21" gid="1" x="463.333" y="511.667" width="128" height="128"/>
+  <object id="22" gid="1" x="706.667" y="1151.67" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="7" name="Drones">
+  <object id="23" gid="9" x="322" y="766" width="128" height="128"/>
+  <object id="24" gid="9" x="1220" y="896" width="128" height="128"/>
+  <object id="26" gid="9" x="1346" y="254" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="8" name="Yakuzas">
+  <object id="27" gid="10" x="1280" y="1294" width="128" height="128"/>
+  <object id="28" gid="10" x="1794" y="1300" width="128" height="128"/>
  </objectgroup>
 </map>
