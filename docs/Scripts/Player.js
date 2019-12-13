@@ -2,11 +2,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
+        this.setSize(150,120);
+        this.setDisplaySize(150,130);
+        
         //Físicas
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
 
+        this.play('run');
         //Atributos
         this.mouse = scene.input.activePointer;
         this.speed = 500;
@@ -24,10 +28,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.agarre = null;
         this.isSeen = false;
         this.scene = scene;
+        this.runAnimation = true;
+
     }
 
-    preUpdate() {
+    preUpdate(t,d) {
 
+        super.preUpdate(t,d);
+
+        console.log(this.anims);
         if(this.jumping){
             this.curve.getPoint(this.path.t, this.path.vec);
             this.x = this.path.vec.x;
@@ -41,14 +50,26 @@ export default class Player extends Phaser.GameObjects.Sprite{
             if (this.mouse.rightButtonDown() && objX-this.x > this.offsetX) {
                 this.body.setVelocityX(this.speed);
                 this.flipX = false;
+                if(this.runAnimation){
+                    this.anims.restart();
+                    this.runAnimation = false;
+                }
             }
 
             else if (this.mouse.rightButtonDown() && objX-this.x < - this.offsetX) {
                 this.body.setVelocityX(-this.speed);
                 this.flipX = true;
+                if(this.runAnimation){
+                    this.anims.restart();
+                    this.runAnimation = false;
+                }
             }
 
-            else this.body.setVelocityX(0);
+            else{
+                this.body.setVelocityX(0);
+                this.anims.pause();
+                this.runAnimation = true;
+            }
         }
         
         if(this.attached && this.mouse.rightButtonDown()){
@@ -59,8 +80,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         this.mouse.updateWorldPoint(this.camera);
 
-        if(this.brillando)
-            this.curve.draw(this.scene.graphics);
+        if(this.brillando) this.curve.draw(this.scene.graphics);
+            
     }
 
     Hide() {

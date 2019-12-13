@@ -24,6 +24,11 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
         this.load.image('Dron', './resources/temporaryDrone.jpg');
         this.load.image('RestartButton', './resources/RestartButton.png');
+        this.load.image('defNinja', './resources/sprites/player/run/imgs/tile000.png');
+
+
+        //Carga spritesheet
+        this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 400, frameHeight: 500 });
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', this.jsonString);
@@ -34,6 +39,16 @@ export default class LevelScene extends Phaser.Scene{
 
 
     create(){
+
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNumbers('animationTry'),
+            frameRate: 40,
+            repeat: -1
+        });
+
+        
+
         //Mapa
         this.map = this.make.tilemap({ 
             key: 'tilemap', 
@@ -50,14 +65,14 @@ export default class LevelScene extends Phaser.Scene{
         let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
         let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
-
+        
         //graphics
         this.graphics = this.add.graphics();
         this.graphics.lineStyle(50, "0xFF00FF", 1.0);
         this.graphics.fillStyle("0xFFFFFF", 1.0);
 
         //Ninja
-        let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, "ninja", this.levelJumps);
+        let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, 'defNinja', this.levelJumps);
         this.ninja = miNinja;
 
         //Creación de los agarres
