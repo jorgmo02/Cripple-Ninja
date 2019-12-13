@@ -60,10 +60,11 @@ export default class LevelScene extends Phaser.Scene{
         let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, "ninja", this.levelJumps);
         this.ninja = miNinja;
 
-       
         //Creación de los agarres
         buttonLayer.forEach(object => {
-            let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja);
+            let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja, ()=>{
+                miNinja.Jump(obj, obj.x, obj.y);
+            });
             obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0.5,0.5);
         });

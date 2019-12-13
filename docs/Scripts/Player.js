@@ -76,11 +76,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
         
     }
     
-    Jump(agarre){
+    Jump(agarre, x, y){
         if(this.agarre !== agarre)
         {
-            let x = agarre.x;
-            let y = agarre.y;
             this.agarre = agarre;
             if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor()))
             {

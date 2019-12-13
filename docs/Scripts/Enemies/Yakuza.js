@@ -5,15 +5,15 @@ export default class Yakuza extends EnemyWithTriggerVision{
     constructor(scene, x, y, EnemyType, Agarre, miNinja, VisionTrigger)
     {
         super(scene,x,y,EnemyType, miNinja, 0, 0, 300, 50, VisionTrigger);
-        
+
         this.rangeX = 600;
         this.visionTrigger.setOrigin(0,0);
-    
-
+        this.ninja = miNinja;
         this.speedX = 100;
-        //Añadimos al container el agarre del yakuza
-        this.add([ new ObjetoAgarrable(scene, 0, 0, Agarre, miNinja)]);
-        this.agarre = this.list[2];
+        //Añadimos al container el agarre del yakuza        
+        let agarre = new ObjetoAgarrable(scene, 0, 0, Agarre, miNinja, (()=> { miNinja.Jump(agarre, this.x, this.y); }));
+        this.add([ agarre]);
+        this.agarre = agarre;
         this.body.setVelocityX(this.speedX);
     }
     
@@ -29,6 +29,6 @@ export default class Yakuza extends EnemyWithTriggerVision{
             this.enemySprite.flipX = false;
             this.visionTrigger.x = this.visionTrigger.initX;
         }
-        
+        this.agarre.setObj(this.x, this.y);
     }
 }
