@@ -44,7 +44,7 @@
   <object id="26" gid="9" x="1346" y="254" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="8" name="Yakuzas">
-  <object id="27" gid="10" x="1280" y="1294" width="128" height="128"/>
-  <object id="28" gid="10" x="1794" y="1300" width="128" height="128"/>
+  <object id="27" gid="10" x="1278" y="1340" width="128" height="128"/>
+  <object id="28" gid="10" x="1790" y="1344" width="128" height="128"/>
  </objectgroup>
 </map>

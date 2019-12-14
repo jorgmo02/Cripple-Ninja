@@ -25,10 +25,12 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('Dron', './resources/temporaryDrone.jpg');
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defNinja', './resources/sprites/player/run/imgs/tile000.png');
+        this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
 
 
         //Carga spritesheet
         this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 400, frameHeight: 500 });
+        this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', this.jsonString);
@@ -39,7 +41,7 @@ export default class LevelScene extends Phaser.Scene{
 
 
     create(){
-
+        //Animaciones
         this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('animationTry'),
@@ -47,6 +49,12 @@ export default class LevelScene extends Phaser.Scene{
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'YakuzaRun',
+            frames: this.anims.generateFrameNumbers('runningYakuza'),
+            frameRate: 20,
+            repeat:-1,
+        })
         
 
         //Mapa
@@ -140,19 +148,21 @@ export default class LevelScene extends Phaser.Scene{
         //Enemies
         this.playerDetection = this.physics.add.group();
 
+        /*
         //Camaras
         camerasLayer.forEach(object =>{
             let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
 
+        
         //Drones
         droneLayer.forEach(object=>{
             new Dron(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
-        })
+        })*/
 
         //Yakuzas
         yakuzaLayer.forEach(object=>{
-            new Yakuza (this, object.x, object.y, 'Yakuza','invisible', miNinja, 'VisionTrigger');
+            new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionTrigger');
         })
         
         //Si detectan al ninja, se reinicia el nivel

@@ -6,6 +6,9 @@ export default class Yakuza extends EnemyWithTriggerVision{
     {
         super(scene,x,y,EnemyType, miNinja, 0, 0, 300, 50, VisionTrigger);
 
+        this.enemySprite.setDisplaySize(240, 200);
+        this.enemySprite.play('YakuzaRun');
+        console.log(this.enemySprite);
         this.rangeX = 600;
         this.visionTrigger.setOrigin(0,0);
         this.ninja = miNinja;

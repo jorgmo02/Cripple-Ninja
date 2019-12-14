@@ -36,7 +36,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         super.preUpdate(t,d);
 
-        console.log(this.anims);
         if(this.jumping){
             this.curve.getPoint(this.path.t, this.path.vec);
             this.x = this.path.vec.x;
