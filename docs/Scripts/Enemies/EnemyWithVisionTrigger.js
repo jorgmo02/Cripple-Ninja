@@ -5,7 +5,7 @@ export default class MobileEnemy extends Phaser.GameObjects.Container{
     constructor(scene, x, y, sprite,ninja, zoneX, zoneY, zoneSizeX, zoneSizeY, visionSprite){
         super(scene, x, y)
         //this.add([new Enemy (scene,0,0, sprite, ninja), scene.add.zone(zoneX, zoneY, zoneSizeX, zoneSizeY).setOrigin(0,0)]);
-        this.add([new Enemy (scene,0,0, sprite, ninja),new VisionTrigger(scene,zoneX, zoneY, zoneSizeX, zoneSizeY, visionSprite)])
+        this.add([new VisionTrigger(scene,zoneX, zoneY, zoneSizeX, zoneSizeY, visionSprite), new Enemy (scene,0,0, sprite, ninja)])
         //Físicas
         scene.add.existing(this);
         scene.physics.world.enable(this);
@@ -13,8 +13,8 @@ export default class MobileEnemy extends Phaser.GameObjects.Container{
         this.body.setAllowGravity(false);
 
         //Elementos del container
-        this.enemySprite = this.list[0];
-        this.visionTrigger = this.list[1];
+        this.enemySprite = this.list[1];
+        this.visionTrigger = this.list[0];
         
         //Físicas del trigger
         scene.physics.world.enable(this.visionTrigger);
