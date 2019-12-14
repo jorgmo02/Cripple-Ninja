@@ -49,19 +49,14 @@ export default class Player extends Phaser.GameObjects.Sprite{
             if (this.mouse.rightButtonDown() && objX-this.x > this.offsetX) {
                 this.body.setVelocityX(this.speed);
                 this.flipX = false;
-                if(this.runAnimation){
-                    this.anims.restart();
-                    this.runAnimation = false;
-                }
+                this.RestartRunningAnimation();
+               
             }
 
             else if (this.mouse.rightButtonDown() && objX-this.x < - this.offsetX) {
                 this.body.setVelocityX(-this.speed);
                 this.flipX = true;
-                if(this.runAnimation){
-                    this.anims.restart();
-                    this.runAnimation = false;
-                }
+                this.RestartRunningAnimation();
             }
 
             else{
@@ -90,6 +85,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     ResetVelocity(){
         this.body.setVelocityY(0);
         this.body.setVelocityX(0);
+        this.anims.pause();
     }
 
     isSeen() {
@@ -103,6 +99,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
             if(this.jumpsLeft !== 0 && !this.jumping && (this.attached || this.body.onFloor()))
             {
                 this.jumping = true;
+                this.play('NinjaJump');
                 this.jumpsLeft--;
                 this.scene.actualizeJumpsText(this.jumpsLeft);
 
@@ -120,6 +117,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
                         player.attached = true;
                         player.body.setAllowGravity(false);
                         player.ResetVelocity();
+                        player.play('run');
+                        player.anims.stop();
                     },
                     targets: this.path,
                     t: 1,
@@ -152,5 +151,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.scene.graphics.lineStyle(50, "0xFF00FF", 1.0);
         this.scene.graphics.fillStyle("0xFFFFFF", 1.0);
         this.brillando = false;
+    }
+    
+    RestartRunningAnimation(){
+        if(this.runAnimation){
+            this.anims.restart();
+            this.runAnimation = false;
+        }
     }
 }

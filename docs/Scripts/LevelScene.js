@@ -31,6 +31,7 @@ export default class LevelScene extends Phaser.Scene{
         //Carga spritesheet
         this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 400, frameHeight: 500 });
         this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
+        this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/spritesheet saltoAnim.png', {frameWidth:300 ,frameHeight:350 });
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', this.jsonString);
@@ -54,6 +55,13 @@ export default class LevelScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('runningYakuza'),
             frameRate: 20,
             repeat:-1,
+        })
+
+        this.anims.create({
+            key: 'NinjaJump',
+            frames: this.anims.generateFrameNumbers('jumpingNinja'),
+            frameRate: 30,
+            repeat: 0,
         })
         
 
@@ -158,8 +166,8 @@ export default class LevelScene extends Phaser.Scene{
         //Drones
         droneLayer.forEach(object=>{
             new Dron(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
-        })*/
-
+        })
+*/
         //Yakuzas
         yakuzaLayer.forEach(object=>{
             new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionTrigger');
