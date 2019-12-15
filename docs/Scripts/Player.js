@@ -10,7 +10,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
 
-        this.play('run');
+        this.anims.play('run');
         //Atributos
         this.mouse = scene.input.activePointer;
         this.speed = 500;
@@ -29,7 +29,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.isSeen = false;
         this.scene = scene;
         this.runAnimation = true;
-
     }
 
     preUpdate(t,d) {
@@ -50,7 +49,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
                 this.body.setVelocityX(this.speed);
                 this.flipX = false;
                 this.RestartRunningAnimation();
-               
             }
 
             else if (this.mouse.rightButtonDown() && objX-this.x < - this.offsetX) {
@@ -65,7 +63,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
                 this.runAnimation = true;
             }
         }
-        
+
+        /*if (!this.attached && !this.body.onFloor() && !this.jumping)
+            this.anims.play('NinjaFall');
+        else if(this.body.onFloor() && !this.jumping)
+        {
+            this.anims.play('run');
+            this.RestartRunningAnimation();
+        }*/
+
         if(this.attached && this.mouse.rightButtonDown()){
             this.attached = false;
             this.agarre = null;
