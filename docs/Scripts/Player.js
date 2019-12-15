@@ -2,8 +2,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
-        this.setSize(150,120);
-        this.setDisplaySize(150,130);
+        this.setSize(150,150);
+        this.setDisplaySize(150,150);
         
         //Físicas
         scene.physics.world.enable(this);

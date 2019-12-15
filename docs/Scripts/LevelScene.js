@@ -29,7 +29,7 @@ export default class LevelScene extends Phaser.Scene{
 
 
         //Carga spritesheet
-        this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 400, frameHeight: 500 });
+        this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
         this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/spritesheet saltoAnim.png', {frameWidth:300 ,frameHeight:350 });
 
