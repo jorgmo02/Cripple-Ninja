@@ -30,6 +30,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Carga spritesheet
         this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 300, frameHeight: 350 });
+        this.load.spritesheet('fallingNinja', './resources/sprites/player/falling/falling.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
         this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/spritesheet saltoAnim.png', {frameWidth:300 ,frameHeight:350 });
 
@@ -64,6 +65,12 @@ export default class LevelScene extends Phaser.Scene{
             repeat: 0,
         })
         
+        this.anims.create({
+            key: 'NinjaFall',
+            frames: this.anims.generateFrameNumbers('fallingNinja'),
+            frameRate: 30,
+            repeat: -1,
+        })
 
         //Mapa
         this.map = this.make.tilemap({ 
@@ -83,9 +90,7 @@ export default class LevelScene extends Phaser.Scene{
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
         
         //graphics
-        this.graphics = this.add.graphics();
-        this.graphics.lineStyle(50, "0xFF00FF", 1.0);
-        this.graphics.fillStyle("0xFFFFFF", 1.0);
+        this.graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x000000 }, fillStyle: { color: 0x000000 } });
 
         //Ninja
         let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, 'defNinja', this.levelJumps);
