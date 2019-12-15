@@ -18,7 +18,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image("button", "./resources/play.png");
         this.load.image("invisible", "./resources/Transparente.png");
         this.load.image('ninja', './resources/CrippleNinja.png');
-        this.load.image('patronesTilemap', './resources/maps/TileSetPrueba.png');
+        this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTemple18x12.png');
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
@@ -26,6 +26,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defNinja', './resources/sprites/player/run/imgs/tile000.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
+        this.load.image('levelbackground', './resources/maps/backgrounds/background1.png');
 
 
         //Carga spritesheet
@@ -72,15 +73,23 @@ export default class LevelScene extends Phaser.Scene{
 
         //Layers del tilemap
         //LLAMAR A TODAS LAS LAYER EN TILES COMO ESTAS 
-        let tileset = this.map.addTilesetImage('TileSetPrueba', 'patronesTilemap');
-        this.map.createStaticLayer('Cielo', tileset,0,0);
+        let tileset = this.map.addTilesetImage('ChineseTemple18x12', 'patronesTilemap');
+
+        //Background
+        this.add.image(0,0, 'levelbackground').setOrigin(0,0);
+
+        //Layers
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
+        groundLayer.setCollisionBetween(0,999);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
         let EndLevel = this.map.getObjectLayer('FinJuego')['objects'];
         let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
         let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
+        this.map.createStaticLayer('Detalles1', tileset,0,0);
+        this.map.createStaticLayer('Arboles2', tileset, 0,0);
+        this.map.createStaticLayer('Arboles1', tileset, 0,0);
         
         //graphics
         this.graphics = this.add.graphics();
@@ -156,7 +165,7 @@ export default class LevelScene extends Phaser.Scene{
         //Enemies
         this.playerDetection = this.physics.add.group();
 
-        /*
+        
         //Camaras
         camerasLayer.forEach(object =>{
             let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
@@ -167,7 +176,7 @@ export default class LevelScene extends Phaser.Scene{
         droneLayer.forEach(object=>{
             new Dron(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
-*/
+
         //Yakuzas
         yakuzaLayer.forEach(object=>{
             new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionTrigger');
