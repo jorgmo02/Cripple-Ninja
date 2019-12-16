@@ -23,7 +23,8 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
         this.load.image('Dron', './resources/temporaryDrone.jpg');
-        this.load.image('RestartButton', './resources/RestartButton.png');
+        this.load.image('Camara', './resources/sprites/camera.png')
+;        this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defNinja', './resources/sprites/player/run/imgs/tile000.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
         this.load.image('levelbackground', './resources/maps/backgrounds/background1.png');
@@ -86,6 +87,7 @@ export default class LevelScene extends Phaser.Scene{
         this.add.image(0,0, 'levelbackground').setOrigin(0,0);
 
         //Layers
+        this.map.createStaticLayer('Detalles1', tileset,0,0);
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         groundLayer.setCollisionBetween(0,999);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
@@ -94,7 +96,6 @@ export default class LevelScene extends Phaser.Scene{
         let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
         let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
-        this.map.createStaticLayer('Detalles1', tileset,0,0);
         this.map.createStaticLayer('Arboles2', tileset, 0,0);
         this.map.createStaticLayer('Arboles1', tileset, 0,0);
         
@@ -173,7 +174,7 @@ export default class LevelScene extends Phaser.Scene{
         
         //Camaras
         camerasLayer.forEach(object =>{
-            let obj = new SecurityCamera(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
+            let obj = new SecurityCamera(this, object.x, object.y, 'Camara', miNinja, 'VisionTrigger');
         })
 
         
