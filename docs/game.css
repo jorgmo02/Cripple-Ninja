@@ -1,5 +1,15 @@
 h1{
   text-align: center;
+  font-size: 50px;
+}
+h2{
+  text-align: center;
+  font-size: 40px;
+}
+
+p {
+  font-family: Verdana, "Geneva", sans-serif;
+  font-style: normal;
 }
 
 ul.topnav {
@@ -35,7 +45,7 @@ ul.topnav li.right {float: right;}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: #f1f1f1;
+  background: #c2c2c2;
 }
 
 .header {
@@ -45,7 +55,7 @@ body {
 }
 
 .card {
-  background-color: white;
+  background-color: #f1f1f1;
   padding: 20px;
   margin-top: 20px;
 }
@@ -81,6 +91,10 @@ body {
 @media screen and (max-width: 600px) {
   .column.side, .column.middle {
     width: 100%;
+}
+
+img {
+  border-radius: 8px;
 }
 
 }
