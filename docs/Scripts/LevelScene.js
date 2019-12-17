@@ -22,7 +22,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
-        this.load.image('Dron', './resources/temporaryDrone.jpg');
+        this.load.image('Dron', './resources/sprites/drone.png');
         this.load.image('Camara', './resources/sprites/camera.png');
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
