@@ -2,13 +2,14 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
         super(scene, x, y, sprite);
-        this.setSize(150,120);
+        this.setSize(50,120);
         this.setDisplaySize(150,150);
         
         //Físicas
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
+        this.body.setOffset(100, 0);
 
         //this.anims.play('run');
         //Atributos
@@ -155,8 +156,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     LimpiarBrillitos() {
         this.scene.graphics.clear();
-        this.scene.graphics.lineStyle(50, "0xFF00FF", 1.0);
-        this.scene.graphics.fillStyle("0xFFFFFF", 1.0);
+        this.scene.graphics.lineStyle(20, "0XE8518B", 1.0);
+        this.scene.graphics.alpha = 0.25;
         this.brillando = false;
     }
     
