@@ -11,7 +11,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
         this.body.setOffset(100, 0);
 
-        //this.anims.play('run');
         //Atributos
         this.mouse = scene.input.activePointer;
         this.speed = 500;
@@ -42,47 +41,52 @@ export default class Player extends Phaser.GameObjects.Sprite{
             this.y = this.path.vec.y;
         }
 
-        else if (this.body.onFloor())
+        else if (this.body.velocity.y < 5 && this.body.onFloor())
         {
             this.agarre = null;
             let objX = this.mouse.worldX;
-            if (this.mouse.rightButtonDown() && objX-this.x > this.offsetX) {
-                this.body.setVelocityX(this.speed);
-                this.flipX = false;
-                this.RestartRunningAnimation();
-            }
+            if(this.mouse.rightButtonDown())
+                {
+                if (objX-this.x > this.offsetX) {
+                    this.RestartRunningAnimation();
+                    this.body.setVelocityX(this.speed);
+                    this.flipX = false;
+                }
 
-            else if (this.mouse.rightButtonDown() && objX-this.x < - this.offsetX) {
-                this.body.setVelocityX(-this.speed);
-                this.flipX = true;
-                this.RestartRunningAnimation();
+                else if (objX-this.x < - this.offsetX) {
+                    this.RestartRunningAnimation();
+                    this.body.setVelocityX(-this.speed);
+                    this.flipX = true;
+                }
             }
-
-            else{
-                this.body.setVelocityX(0);
+            else {
                 this.anims.stop();
+                this.play('idle');
+                this.body.setVelocityX(0);
                 this.runAnimation = true;
             }
         }
-
-        if (!this.attached && !this.body.onFloor() && !this.jumping)
-            this.play('NinjaFall');
-            
-        else if(this.body.onFloor() && !this.jumping&& this.runAnimation) {
-            this.play('run');
-            this.RestartRunningAnimation();
+        else if(this.attached){
+            this.play('idle'); //this.play('attachedAnim');
+            if(this.mouse.rightButtonDown()){
+                this.attached = false;
+                this.agarre = null;
+                this.body.setAllowGravity(true);
+            }
         }
-
-        if(this.attached && this.mouse.rightButtonDown()){
-            this.attached = false;
-            this.agarre = null;
-            this.body.setAllowGravity(true);
+        else {
+            if (this.body.velocity.y > 5 && !this.body.onFloor())
+                this.play('NinjaFall');
+                
+            else if(this.body.velocity.x != 0 && this.body.onFloor() && this.runAnimation) {
+                this.play('run');
+                this.RestartRunningAnimation();
+            }
         }
 
         this.mouse.updateWorldPoint(this.camera);
 
-        if(this.brillando) this.curve.draw(this.scene.graphics);
-            
+        if (this.brillando) this.curve.draw(this.scene.graphics);
     }
 
     Hide() {
