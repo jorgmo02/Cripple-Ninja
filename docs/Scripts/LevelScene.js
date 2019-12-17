@@ -85,7 +85,6 @@ export default class LevelScene extends Phaser.Scene{
         this.add.image(0,0, 'levelbackground').setOrigin(0,0);
 
         //Layers
-        this.map.createStaticLayer('Detalles1', tileset,0,0);
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
         groundLayer.setCollisionBetween(0,999);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
@@ -94,8 +93,9 @@ export default class LevelScene extends Phaser.Scene{
         let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
         let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
-        this.map.createStaticLayer('Detalles', tileset, 0,0);
         this.map.createStaticLayer('Detalles1', tileset, 0,0);
+        this.map.createStaticLayer('Detalles', tileset, 0,0);
+
         
         //graphics
         this.graphics = this.add.graphics();
@@ -116,9 +116,8 @@ export default class LevelScene extends Phaser.Scene{
         //Creación de las trampas
         let trampas = this.physics.add.staticGroup();
         trapLayer.forEach(object => {
-            let obj = this.add.sprite(object.x, object.y, 'Pinchos');
-            obj.setScale(object.width/500, object.height/500);//Esto no haría falta una vez que tuviesemos sprites definitivos
-            obj.setSize(128,64); //Esto no haría falta una vez que tuviesemos sprites definitivos
+            let obj = this.add.sprite(object.x, object.y, 'invisible');
+            obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0);
             trampas.add(obj, [this]);
             obj.body.setSize(50,50);
@@ -149,7 +148,7 @@ export default class LevelScene extends Phaser.Scene{
         this.physics.add.collider(miNinja, groundLayer);
         this.physics.world.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
-        this.cameras.main.setSize(1400,800);
+        this.cameras.main.setSize(1000,600);
 
         //Follow Player
         this.cameras.main.startFollow(miNinja);
@@ -180,14 +179,13 @@ export default class LevelScene extends Phaser.Scene{
         this.jumpsCounter.setScrollFactor(0);
 
         //Boton de reiniciar nivel
-        let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
+        let restartButton = this.add.sprite(this.cameras.main.x +10 ,this.cameras.main.y + 10 , 'RestartButton');
         restartButton.setOrigin(0,0);
         restartButton.setScale(0.5);
         restartButton.setScrollFactor(0); //Para que se mueva con la camara
         restartButton.setInteractive();
         restartButton.on('pointerdown',() => {this.scene.restart();});
- 
-         
+  
         
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{
