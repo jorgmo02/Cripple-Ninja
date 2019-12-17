@@ -16,6 +16,8 @@ export default class MainMenu extends Phaser.Scene{
         let playButton = this.add.sprite(500, 450, 'startButton');
         playButton.setInteractive();
         playButton.on('pointerdown',() => {this.scene.start('main')});
+        playButton.on('pointerover', ()=>{playButton.setScale(1.1);});
+        playButton.on('pointerout', ()=>{playButton.setScale(1);});
 
     }
 }
