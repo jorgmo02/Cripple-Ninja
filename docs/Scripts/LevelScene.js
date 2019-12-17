@@ -189,10 +189,13 @@ export default class LevelScene extends Phaser.Scene{
         //Boton de reiniciar nivel
         let restartButton = this.add.sprite(this.cameras.main.x +10 ,this.cameras.main.y + 10 , 'RestartButton');
         restartButton.setOrigin(0,0);
-        restartButton.setScale(0.5);
-        restartButton.setScrollFactor(0); //Para que se mueva con la camara
+        let buttonScale = 0.5;
+        restartButton.setScale(buttonScale);
+        restartButton.setScrollFactor(0); //Para que se mueva con la cámara
         restartButton.setInteractive();
         restartButton.on('pointerdown',() => {this.scene.restart();});
+        restartButton.on('pointerover',() => {restartButton.setScale(buttonScale + 0.03);});
+        restartButton.on('pointerout',() => {restartButton.setScale(buttonScale);});
   
         
         //Si detectan al ninja, se reinicia el nivel

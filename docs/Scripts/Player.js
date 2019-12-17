@@ -166,7 +166,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     
     RestartRunningAnimation(){
         if(this.runAnimation){
-            this.anims.restart();
+            this.play('run');
             this.runAnimation = false;
         }
     }
