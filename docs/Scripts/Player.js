@@ -111,6 +111,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
             {
                 this.jumping = true;
                 this.play('NinjaJump');
+                this.scene.playJumpMusic();
                 this.jumpsLeft--;
                 this.scene.actualizeJumpsText(this.jumpsLeft);
 

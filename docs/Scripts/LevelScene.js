@@ -22,7 +22,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
-        this.load.image('Dron', './resources/temporaryDrone.jpg');
+        this.load.image('Dron', './resources/sprites/drone.png');
         this.load.image('Camara', './resources/sprites/camera.png');
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
@@ -40,10 +40,33 @@ export default class LevelScene extends Phaser.Scene{
 
         //Desactivar menú contextual clic derecho
         this.input.mouse.disableContextMenu();
+
+        //Audio
+        this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
+        this.load.audio('jumpSound', './resources/Sounds/jump_04.wav');
     }
 
 
     create(){
+        //Audio
+        this.sound.stopAll();
+
+        const config = {
+            mute: false,
+            volume: 0.75,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }; // config es opcional
+        this.sceneSound = this.sound.add('SceneSound', config);
+        this.sceneSound.play();
+
+        this.jumpSound = this.sound.add('jumpSound'); 
+        
+
+
         //Animaciones
         this.anims.create({
             key: 'run',
@@ -216,5 +239,9 @@ export default class LevelScene extends Phaser.Scene{
 
     actualizeJumpsText(nJumps){
         this.jumpsCounter.setText('Jumps: ' + nJumps);
+    }
+
+    playJumpMusic(){
+        this.jumpSound.play();
     }
 }

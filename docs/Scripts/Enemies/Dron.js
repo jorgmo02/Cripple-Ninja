@@ -8,7 +8,7 @@ export default class Dron extends EnemyWithTriggerVision{
         this.speedY = 150;
         this.body.setVelocityY(this.speedY);
 
-        this.enemySprite.setOrigin(0);
+        this.enemySprite.setOrigin(0.3,0);
         this.visionTrigger.setOrigin(-0.5, -0.25);
     }
 
