@@ -151,15 +151,6 @@ export default class LevelScene extends Phaser.Scene{
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setSize(1400,800);
 
-        //Boton de reiniciar nivel
-        let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
-        restartButton.setOrigin(0,0);
-        restartButton.setScale(0.5);
-        restartButton.setScrollFactor(0); //Para que se mueva con la camara
-        restartButton.setInteractive();
-        restartButton.on('pointerdown',() => {this.scene.restart();});
-
-
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
@@ -188,12 +179,13 @@ export default class LevelScene extends Phaser.Scene{
         this.jumpsCounter = this.add.text(700, this.cameras.main.y + 10, 'Jumps: ' + this.levelJumps, { fontFamily: 'Arial', fontSize: 45, color: '#641e16 ' }).setBackgroundColor('#cd5c5c');
         this.jumpsCounter.setScrollFactor(0);
 
-         //Boton de reiniciar nivel
-         let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
-         restartButton.setOrigin(0,0);
-         restartButton.setScrollFactor(0); //Para que se mueva con la camara
-         restartButton.setInteractive();
-         restartButton.on('pointerdown',() => {this.scene.restart();});
+        //Boton de reiniciar nivel
+        let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
+        restartButton.setOrigin(0,0);
+        restartButton.setScale(0.5);
+        restartButton.setScrollFactor(0); //Para que se mueva con la camara
+        restartButton.setInteractive();
+        restartButton.on('pointerdown',() => {this.scene.restart();});
  
          
         
