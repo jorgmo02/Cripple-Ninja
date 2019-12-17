@@ -13,7 +13,7 @@ export default class MainMenu extends Phaser.Scene{
         this.add.image(0,0, 'background').setOrigin(0,0);
 
         //Boton
-        let playButton = this.add.sprite(700, 600, 'startButton').setScale(0.75);
+        let playButton = this.add.sprite(700, 600, 'startButton');
         playButton.setInteractive();
         playButton.on('pointerdown',() => {this.scene.start('main')});
 

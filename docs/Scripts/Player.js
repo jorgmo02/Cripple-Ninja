@@ -60,7 +60,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
             else{
                 this.body.setVelocityX(0);
-                this.anims.pause();
+                this.anims.stop();
                 this.runAnimation = true;
             }
         }
@@ -68,8 +68,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         if (!this.attached && !this.body.onFloor() && !this.jumping)
             this.play('NinjaFall');
             
-        else if(this.body.onFloor() && !this.jumping&& this.runAnimation)
-        {
+        else if(this.body.onFloor() && !this.jumping&& this.runAnimation) {
             this.play('run');
             this.RestartRunningAnimation();
         }

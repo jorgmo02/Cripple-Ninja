@@ -17,24 +17,22 @@ export default class LevelScene extends Phaser.Scene{
         //Carga imágenes
         this.load.image("button", "./resources/play.png");
         this.load.image("invisible", "./resources/Transparente.png");
-        this.load.image('ninja', './resources/CrippleNinja.png');
+        this.load.image('ninja', './resources/sprites/player/static.png');
         this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTemple18x12.png');
         this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
         this.load.image('Dron', './resources/temporaryDrone.jpg');
-        this.load.image('Camara', './resources/sprites/camera.png')
-;        this.load.image('RestartButton', './resources/RestartButton.png');
-        this.load.image('defNinja', './resources/sprites/player/run/imgs/tile000.png');
+        this.load.image('Camara', './resources/sprites/camera.png');
+        this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
         this.load.image('levelbackground', './resources/maps/backgrounds/background1.png');
 
-
         //Carga spritesheet
-        this.load.spritesheet('animationTry', './resources/sprites/player/run/run.png', { frameWidth: 300, frameHeight: 350 });
+        this.load.spritesheet('runningNinja', './resources/sprites/player/run/running.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('fallingNinja', './resources/sprites/player/falling/falling.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
-        this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/spritesheet saltoAnim.png', {frameWidth:300 ,frameHeight:350 });
+        this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/jumping.png', {frameWidth:300 ,frameHeight:350 });
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', this.jsonString);
@@ -48,7 +46,7 @@ export default class LevelScene extends Phaser.Scene{
         //Animaciones
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('animationTry'),
+            frames: this.anims.generateFrameNumbers('runningNinja'),
             frameRate: 40,
             repeat: -1
         });
@@ -103,7 +101,7 @@ export default class LevelScene extends Phaser.Scene{
         this.graphics = this.add.graphics();
 
         //Ninja
-        let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, 'defNinja', this.levelJumps);
+        let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, 'ninja', this.levelJumps);
         this.ninja = miNinja;
 
         //Creación de los agarres
@@ -156,6 +154,7 @@ export default class LevelScene extends Phaser.Scene{
         //Boton de reiniciar nivel
         let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
         restartButton.setOrigin(0,0);
+        restartButton.setScale(0.5);
         restartButton.setScrollFactor(0); //Para que se mueva con la camara
         restartButton.setInteractive();
         restartButton.on('pointerdown',() => {this.scene.restart();});
