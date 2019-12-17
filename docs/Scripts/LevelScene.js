@@ -17,14 +17,12 @@ export default class LevelScene extends Phaser.Scene{
         //Carga imágenes
         this.load.image("button", "./resources/play.png");
         this.load.image("invisible", "./resources/Transparente.png");
-        this.load.image('ninja', './resources/CrippleNinja.png');
-        this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTemple18x12.png');
-        this.load.image("Yakuza", './resources/Yakuza.png');
+        this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTempleExpandidoV218x12.png');
         this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
         this.load.image('Dron', './resources/temporaryDrone.jpg');
         this.load.image('Camara', './resources/sprites/camera.png')
-;        this.load.image('RestartButton', './resources/RestartButton.png');
+;       this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defNinja', './resources/sprites/player/run/imgs/tile000.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
         this.load.image('levelbackground', './resources/maps/backgrounds/background1.png');
@@ -63,7 +61,7 @@ export default class LevelScene extends Phaser.Scene{
         this.anims.create({
             key: 'NinjaJump',
             frames: this.anims.generateFrameNumbers('jumpingNinja'),
-            frameRate: 30,
+            frameRate: 40,
             repeat: 0,
         })
         
@@ -81,7 +79,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Layers del tilemap
         //LLAMAR A TODAS LAS LAYER EN TILES COMO ESTAS 
-        let tileset = this.map.addTilesetImage('ChineseTemple18x12', 'patronesTilemap');
+        let tileset = this.map.addTilesetImage('ChineseTempleExpandidoV218x12', 'patronesTilemap');
 
         //Background
         this.add.image(0,0, 'levelbackground').setOrigin(0,0);
@@ -96,8 +94,8 @@ export default class LevelScene extends Phaser.Scene{
         let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
         let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
-        this.map.createStaticLayer('Arboles2', tileset, 0,0);
-        this.map.createStaticLayer('Arboles1', tileset, 0,0);
+        this.map.createStaticLayer('Detalles', tileset, 0,0);
+        this.map.createStaticLayer('Detalles1', tileset, 0,0);
         
         //graphics
         this.graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x000000 }, fillStyle: { color: 0x000000 } });
@@ -108,10 +106,10 @@ export default class LevelScene extends Phaser.Scene{
 
         //Creación de los agarres
         buttonLayer.forEach(object => {
-            let obj = new ObjetoAgarrable (this, object.x, object.y, 'button', miNinja, ()=>{
+            let obj = new ObjetoAgarrable (this, object.x, object.y, 'invisible', miNinja, ()=>{
                 miNinja.Jump(obj, obj.x, obj.y);
             });
-            obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
+            //obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0.5,0.5);
         });
             
@@ -151,18 +149,8 @@ export default class LevelScene extends Phaser.Scene{
         this.physics.add.collider(miNinja, groundLayer);
         this.physics.world.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
-        this.cameras.main.setSize(1400,800);
+        this.cameras.main.setSize(1000,600);
 
-        //Boton de reiniciar nivel
-        let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
-        restartButton.setOrigin(0,0);
-        restartButton.setScrollFactor(0); //Para que se mueva con la camara
-        restartButton.setInteractive();
-        restartButton.on('pointerdown',() => {this.scene.restart();});
-
-        //Texto con el número de saltos restantes
-        this.jumpsCounter = this.add.text(1100, this.cameras.main.y + 10, 'Jumps: ' + this.levelJumps, { fontFamily: 'Arial', fontSize: 50, color: '#641e16 ' }).setBackgroundColor('#cd5c5c');
-        this.jumpsCounter.setScrollFactor(0);
 
         //Follow Player
         this.cameras.main.startFollow(miNinja);
@@ -187,6 +175,19 @@ export default class LevelScene extends Phaser.Scene{
         yakuzaLayer.forEach(object=>{
             new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionTrigger');
         })
+
+        //Texto con el número de saltos restantes
+        this.jumpsCounter = this.add.text(700, this.cameras.main.y + 10, 'Jumps: ' + this.levelJumps, { fontFamily: 'Arial', fontSize: 45, color: '#641e16 ' }).setBackgroundColor('#cd5c5c');
+        this.jumpsCounter.setScrollFactor(0);
+
+         //Boton de reiniciar nivel
+         let restartButton = this.add.sprite(this.cameras.main.x,this.cameras.main.y + 10 , 'RestartButton');
+         restartButton.setOrigin(0,0);
+         restartButton.setScrollFactor(0); //Para que se mueva con la camara
+         restartButton.setInteractive();
+         restartButton.on('pointerdown',() => {this.scene.restart();});
+ 
+         
         
         //Si detectan al ninja, se reinicia el nivel
         this.physics.add.overlap(miNinja, this.playerDetection, () =>{

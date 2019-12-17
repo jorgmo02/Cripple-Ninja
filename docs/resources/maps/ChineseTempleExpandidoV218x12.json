@@ -1,0 +1,14 @@
+{ "columns":18,
+ "image":"..\/sprites\/Tilesets\/ChineseTempleExpandidoV218x12.png",
+ "imageheight":768,
+ "imagewidth":1152,
+ "margin":0,
+ "name":"ChineseTempleExpandidoV218x12",
+ "spacing":0,
+ "tilecount":216,
+ "tiledversion":"1.3.1",
+ "tileheight":64,
+ "tilewidth":64,
+ "type":"tileset",
+ "version":1.2
+}
