@@ -9,6 +9,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
+        this.body.setOffset(100, 0);
 
         //this.anims.play('run');
         //Atributos
@@ -32,8 +33,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
     }
 
     preUpdate(t,d) {
-        console.log(this.displayOriginX);
-        console.log(this.displayOriginY);
 
         super.preUpdate(t,d);
 
