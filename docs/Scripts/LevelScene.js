@@ -100,7 +100,7 @@ export default class LevelScene extends Phaser.Scene{
         this.map.createStaticLayer('Arboles1', tileset, 0,0);
         
         //graphics
-        this.graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x000000 }, fillStyle: { color: 0x000000 } });
+        this.graphics = this.add.graphics();
 
         //Ninja
         let miNinja = new Player (this, this.initNinjaX, this.initNinjaY, 'defNinja', this.levelJumps);
