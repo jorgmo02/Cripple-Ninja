@@ -43,7 +43,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Audio
         this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
-        this.load.audio('jumpSound', './resources/Sounds/jump_04.wav');
+        this.load.audio('jumpSound', './resources/Sounds/jump.mp3');
     }
 
 
