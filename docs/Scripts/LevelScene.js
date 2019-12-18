@@ -17,14 +17,12 @@ export default class LevelScene extends Phaser.Scene{
 
     preload(){
         //Carga imágenes
-        this.load.image("button", "./resources/play.png");
         this.load.image("invisible", "./resources/Transparente.png");
         this.load.image('ninja', './resources/sprites/player/static.png');
         this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTempleExpandidoV218x12.png');
-        this.load.image("Yakuza", './resources/Yakuza.png');
         this.load.image('VisionTrigger','./resources/sprites/TriggerVision.png');
         this.load.image('VisionYakuza','./resources/sprites/TriggerYakuza.png');
-        this.load.image('Pinchos', './resources/TemporaryTrap.png');
+        this.load.image('Trap', './resources/sprites/trap/trap0.png');
         this.load.image('Dron', './resources/sprites/drone.png');
         this.load.image('Camara', './resources/sprites/camera.png');
         this.load.image('RestartButton', './resources/RestartButton.png');
@@ -38,6 +36,8 @@ export default class LevelScene extends Phaser.Scene{
         this.load.spritesheet('fallingNinja', './resources/sprites/player/falling/falling.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
         this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/jumping.png', {frameWidth:300 ,frameHeight:350 });
+        this.load.spritesheet('trapAnimation', './resources/sprites/trap/trapSpritesheet.png' , {frameWidth: 423, frameHeight: 249});
+
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap', this.jsonString);
@@ -86,19 +86,27 @@ export default class LevelScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('runningYakuza'),
             frameRate: 20,
             repeat:-1,
-        })
+        });
 
         this.anims.create({
             key: 'NinjaJump',
             frames: this.anims.generateFrameNumbers('jumpingNinja'),
             frameRate: 40,
             repeat: 0,
-        })
+        });
         
         this.anims.create({
             key: 'NinjaFall',
             frames: this.anims.generateFrameNumbers('fallingNinja'),
             frameRate: 30,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key:'TrapAnim',
+            frames: this.anims.generateFrameNumbers('trapAnimation'),
+            yoyo:true,
+            frameRate: 4,
             repeat: -1,
         })
 
@@ -145,8 +153,8 @@ export default class LevelScene extends Phaser.Scene{
         //Creación de las trampas
         let trampas = this.physics.add.staticGroup();
         trapLayer.forEach(object => {
-            let obj = this.add.sprite(object.x, object.y, 'invisible');
-            obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
+            let obj = this.add.sprite(object.x, object.y, 'Trap').play('TrapAnim');
+            obj.setDisplaySize(64,64); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0);
             trampas.add(obj, [this]);
             obj.body.setSize(50,50);
@@ -163,6 +171,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Colision entre trampas y jugador
         this.physics.add.collider(miNinja, trampas, ()=>{
+            
             this.NinjaDetected();
         });
 
