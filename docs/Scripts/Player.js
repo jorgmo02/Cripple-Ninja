@@ -12,7 +12,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setOffset(100, 0);
 
         //Atributos
-        this.ableToMove = true;
         this.mouse = scene.input.activePointer;
         this.speed = 500;
         this.jumpSpeed = -1.75;
@@ -30,6 +29,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         //this.isSeen = false;
         this.scene = scene;
         this.runAnimation = true;
+        this.ableToMove = true;
     }
 
     preUpdate(t,d) {
@@ -88,11 +88,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
             if (this.brillando) this.curve.draw(this.scene.graphics);
         }
-        else
-        {
-            this.body.setVelocity(0);
-            this.body.setEnable(false);
-        }
+        else this.anims.stop();
     }
 
     Hide() {
@@ -107,7 +103,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     isSeen(escena) {
         this.ableToMove = false;
+        this.anims.stop();
         escena.playSeenMusic();
+        this.body.setVelocity(0);
+        this.body.setEnable(false);
     }
     
     Jump(agarre, x, y, kill, objective){
@@ -142,6 +141,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
                             if(kill)
                             {
                                 objective.isKilled();
+                                player.scene.playKillMusic();
                                 player.attached = false;
                                 player.agarre = null;
                                 player.body.setAllowGravity(true);

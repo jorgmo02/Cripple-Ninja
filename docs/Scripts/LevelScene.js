@@ -49,6 +49,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
         this.load.audio('jumpSound', './resources/Sounds/jump.mp3');
         this.load.audio('seenSound', './resources/Sounds/detected.wav');
+        this.load.audio('killSound', './resources/Sounds/kill.mp3');
     }
 
 
@@ -56,6 +57,7 @@ export default class LevelScene extends Phaser.Scene{
         //Audio
         this.jumpSound = this.sound.add('jumpSound'); 
         this.seenSound = this.sound.add('seenSound'); 
+        this.killSound = this.sound.add('killSound'); 
         
         //Animaciones
         this.anims.create({
@@ -236,6 +238,10 @@ export default class LevelScene extends Phaser.Scene{
 
     playJumpMusic(){
         this.jumpSound.play();
+    }
+
+    playKillMusic(){
+        this.killSound.play();
     }
 
     playSeenMusic(){
