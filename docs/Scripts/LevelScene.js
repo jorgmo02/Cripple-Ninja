@@ -33,6 +33,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Carga spritesheet
         this.load.spritesheet('staticNinja', './resources/sprites/player/static.png', { frameWidth: 300, frameHeight: 350 });
+        this.load.spritesheet('bendedNinja', './resources/sprites/player/idle agachado.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('runningNinja', './resources/sprites/player/run/running.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('fallingNinja', './resources/sprites/player/falling/falling.png', { frameWidth: 300, frameHeight: 350 });
         this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
@@ -67,6 +68,13 @@ export default class LevelScene extends Phaser.Scene{
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('staticNinja'),
+            frameRate: 40,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'bended',
+            frames: this.anims.generateFrameNumbers('bendedNinja'),
             frameRate: 40,
             repeat: -1
         });

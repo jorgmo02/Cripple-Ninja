@@ -67,7 +67,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
                 }
             }
             else if(this.attached){
-                this.play('idle'); //this.play('attachedAnim');
+                this.play('bended'); //this.play('attachedAnim');
                 if(this.mouse.rightButtonDown()){
                     this.attached = false;
                     this.agarre = null;
