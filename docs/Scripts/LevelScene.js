@@ -45,12 +45,14 @@ export default class LevelScene extends Phaser.Scene{
         //Audio
         this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
         this.load.audio('jumpSound', './resources/Sounds/jump.mp3');
+        this.load.audio('seenSound', './resources/Sounds/detected.wav');
     }
 
 
     create(){
         //Audio
         this.jumpSound = this.sound.add('jumpSound'); 
+        this.seenSound = this.sound.add('seenSound'); 
         
         //Animaciones
         this.anims.create({
@@ -213,9 +215,7 @@ export default class LevelScene extends Phaser.Scene{
     }
     
     NinjaDetected(){
-        this.ninja.isSeen = true;
-        console.log("Ninja detectado");
-        this.scene.restart();
+        this.ninja.isSeen(this);
     }
 
     addTiggerToPhysicsGroup(trigger){
@@ -228,5 +228,16 @@ export default class LevelScene extends Phaser.Scene{
 
     playJumpMusic(){
         this.jumpSound.play();
+    }
+
+    playSeenMusic(){
+        this.seenSound.play();
+        let level = this;
+        this.seenSound.once('complete', function(seenSound) {
+            level.restartScene();});
+    }
+
+    restartScene(){
+        this.scene.restart();
     }
 }

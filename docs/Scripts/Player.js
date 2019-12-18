@@ -12,6 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setOffset(100, 0);
 
         //Atributos
+        this.ableToMove = true;
         this.mouse = scene.input.activePointer;
         this.speed = 500;
         this.jumpSpeed = -1.75;
@@ -26,67 +27,72 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.path;
         this.brillando = false;
         this.agarre = null;
-        this.isSeen = false;
+        //this.isSeen = false;
         this.scene = scene;
         this.runAnimation = true;
     }
 
     preUpdate(t,d) {
+        if(this.ableToMove){
+            super.preUpdate(t,d);
+            if(this.jumping){
+                this.curve.getPoint(this.path.t, this.path.vec);
+                this.x = this.path.vec.x;
+                this.y = this.path.vec.y;
+            }
 
-        super.preUpdate(t,d);
+            else if (this.body.velocity.y < 5 && this.body.onFloor())
+            {
+                this.agarre = null;
+                let objX = this.mouse.worldX;
+                if(this.mouse.rightButtonDown())
+                    {
+                    if (objX-this.x > this.offsetX) {
+                        this.RestartRunningAnimation();
+                        this.body.setVelocityX(this.speed);
+                        this.flipX = false;
+                    }
 
-        if(this.jumping){
-            this.curve.getPoint(this.path.t, this.path.vec);
-            this.x = this.path.vec.x;
-            this.y = this.path.vec.y;
-        }
-
-        else if (this.body.velocity.y < 5 && this.body.onFloor())
-        {
-            this.agarre = null;
-            let objX = this.mouse.worldX;
-            if(this.mouse.rightButtonDown())
-                {
-                if (objX-this.x > this.offsetX) {
-                    this.RestartRunningAnimation();
-                    this.body.setVelocityX(this.speed);
-                    this.flipX = false;
+                    else if (objX-this.x < - this.offsetX) {
+                        this.RestartRunningAnimation();
+                        this.body.setVelocityX(-this.speed);
+                        this.flipX = true;
+                    }
                 }
-
-                else if (objX-this.x < - this.offsetX) {
-                    this.RestartRunningAnimation();
-                    this.body.setVelocityX(-this.speed);
-                    this.flipX = true;
+                else {
+                    this.anims.stop();
+                    this.play('idle');
+                    this.body.setVelocityX(0);
+                    this.runAnimation = true;
+                }
+            }
+            else if(this.attached){
+                this.play('idle'); //this.play('attachedAnim');
+                if(this.mouse.rightButtonDown()){
+                    this.attached = false;
+                    this.agarre = null;
+                    this.body.setAllowGravity(true);
                 }
             }
             else {
-                this.anims.stop();
-                this.play('idle');
-                this.body.setVelocityX(0);
-                this.runAnimation = true;
+                if (this.body.velocity.y > 5 && !this.body.onFloor())
+                    this.play('NinjaFall');
+                    
+                else if(this.body.velocity.x != 0 && this.body.onFloor() && this.runAnimation) {
+                    this.play('run');
+                    this.RestartRunningAnimation();
+                }
             }
-        }
-        else if(this.attached){
-            this.play('idle'); //this.play('attachedAnim');
-            if(this.mouse.rightButtonDown()){
-                this.attached = false;
-                this.agarre = null;
-                this.body.setAllowGravity(true);
-            }
-        }
-        else {
-            if (this.body.velocity.y > 5 && !this.body.onFloor())
-                this.play('NinjaFall');
-                
-            else if(this.body.velocity.x != 0 && this.body.onFloor() && this.runAnimation) {
-                this.play('run');
-                this.RestartRunningAnimation();
-            }
-        }
 
-        this.mouse.updateWorldPoint(this.camera);
+            this.mouse.updateWorldPoint(this.camera);
 
-        if (this.brillando) this.curve.draw(this.scene.graphics);
+            if (this.brillando) this.curve.draw(this.scene.graphics);
+        }
+        else
+        {
+            this.body.setVelocity(0);
+            this.body.setEnable(false);
+        }
     }
 
     Hide() {
@@ -99,8 +105,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.anims.pause();
     }
 
-    isSeen() {
-        
+    isSeen(escena) {
+        this.ableToMove = false;
+        escena.playSeenMusic();
     }
     
     Jump(agarre, x, y){
