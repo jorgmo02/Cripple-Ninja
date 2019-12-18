@@ -5,12 +5,14 @@ import Dron from './Enemies/Dron.js';
 import SecurityCamera from './Enemies/SecurityCamera.js';
 
 export default class LevelScene extends Phaser.Scene{
-    constructor(mapJson, LevelKey, ninjaX, ninjaY, levelJumps){
+    constructor(mapJson, LevelKey, ninjaX, ninjaY, levelJumps, backgroundImage, nextScene){
         super({ key: LevelKey });
         this.jsonString = mapJson;
         this.initNinjaX = ninjaX;
         this.initNinjaY = ninjaY;
         this.levelJumps = levelJumps;
+        this.backgroundImage = backgroundImage;
+        this.nextScene = nextScene;
     }
 
     preload(){
@@ -27,7 +29,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('Camara', './resources/sprites/camera.png');
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
-        this.load.image('levelbackground', './resources/maps/backgrounds/background1.png');
+        this.load.image('levelbackground', this.backgroundImage);
 
         //Carga spritesheet
         this.load.spritesheet('staticNinja', './resources/sprites/player/static.png', { frameWidth: 300, frameHeight: 350 });
@@ -111,8 +113,8 @@ export default class LevelScene extends Phaser.Scene{
         let camerasLayer = this.map.getObjectLayer('Camaras')['objects'];
         let droneLayer = this.map.getObjectLayer('Drones') ['objects'];
         let yakuzaLayer = this.map.getObjectLayer('Yakuzas')['objects'];
-        this.map.createStaticLayer('Detalles1', tileset, 0,0);
         this.map.createStaticLayer('Detalles', tileset, 0,0);
+        this.map.createStaticLayer('Detalles1', tileset, 0,0);
 
         
         //graphics
@@ -157,8 +159,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Colision entre Trigger del fin del juego y el player
         this.physics.add.overlap(miNinja, endTrigger, ()=>{
-            this.scene.start('mainMenu'); //Sería al siguiente nivel, pero de momento te lleva al menú principal
-            console.log("Ganaste");
+            this.scene.start(this.nextScene); 
         });
 
         //Colisiones

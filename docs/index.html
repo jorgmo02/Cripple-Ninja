@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html  >
 <head>
   <meta charset="UTF-8">
@@ -65,6 +65,7 @@
 		<script type="module">
         import Level1 from './Scripts/Level1.js';
         import MainMenu from './Scripts/MainMenu.js';
+        import Level2 from './Scripts/Level2.js';
 
         var config = {
             type: Phaser.AUTO,
@@ -79,7 +80,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ MainMenu , Level1 ],
+            scene: [ MainMenu , Level1 , Level2],
             physics: { default: 'arcade', arcade: { gravity: { y: 900 }, debug: true } }
         };
         new Phaser.Game(config);
