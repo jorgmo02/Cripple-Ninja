@@ -49,20 +49,6 @@ export default class LevelScene extends Phaser.Scene{
 
     create(){
         //Audio
-        this.sound.stopAll();
-
-        const config = {
-            mute: false,
-            volume: 0.75,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-        }; // config es opcional
-        this.sceneSound = this.sound.add('SceneSound', config);
-        this.sceneSound.play();
-
         this.jumpSound = this.sound.add('jumpSound'); 
         
 
