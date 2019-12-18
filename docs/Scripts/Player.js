@@ -1,5 +1,3 @@
-import Enemy from "./Enemies/Enemy";
-
 export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
@@ -140,7 +138,14 @@ export default class Player extends Phaser.GameObjects.Sprite{
                         player.ResetVelocity();
                         player.play('run');
                         player.anims.stop();
-                        if(kill)objective.isKilled();
+                        if(player.ableToMove)
+                            if(kill)
+                            {
+                                objective.isKilled();
+                                player.attached = false;
+                                player.agarre = null;
+                                player.body.setAllowGravity(true);
+                            }
                     },
                     targets: this.path,
                     t: 1,

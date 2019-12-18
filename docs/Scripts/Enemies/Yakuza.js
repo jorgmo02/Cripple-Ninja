@@ -45,5 +45,12 @@ export default class Yakuza extends EnemyWithTriggerVision{
 
     isKilled(){
         console.log('dead');
+        this.body.setVelocity(0);
+        this.visionTrigger.setActive(false);
+        this.visionTrigger.destroy();
+        this.agarre.setActive(false);
+        this.enemySprite.setActive(false);
+        this.setActive(false);
+        this.destroy();
     }
 }
