@@ -26,7 +26,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.path;
         this.brillando = false;
         this.agarre = null;
-        //this.isSeen = false;
         this.scene = scene;
         this.runAnimation = true;
         this.ableToMove = true;

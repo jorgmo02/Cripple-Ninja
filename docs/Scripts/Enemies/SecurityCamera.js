@@ -4,7 +4,9 @@ export default class SecurityCamera extends EnemyWithVisionTrigger{
     constructor(scene, x, y, EnemyType, miNinja, VisionTrigger){
         super(scene, x, y, EnemyType, miNinja, 0, 0, 40, 200, VisionTrigger);
         
-        this.visionTrigger.setOrigin(0.25,-0.25);
+        this.visionTrigger.setOrigin(0.25,-0.15);
+        this.angle = 60;
+        this.visionTrigger.angle = -60;
         //his.visionTrigger.angle = -60;
         /*
         //Angulos entre los que se va a mover
