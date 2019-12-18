@@ -5,7 +5,7 @@ import Dron from './Enemies/Dron.js';
 import SecurityCamera from './Enemies/SecurityCamera.js';
 
 export default class LevelScene extends Phaser.Scene{
-    constructor(mapJson, LevelKey, ninjaX, ninjaY, levelJumps, backgroundImage, nextScene){
+    constructor(mapJson, LevelKey, ninjaX, ninjaY, levelJumps, backgroundImage, nextScene, tilemapKey, backgroundKey){
         super({ key: LevelKey });
         this.jsonString = mapJson;
         this.initNinjaX = ninjaX;
@@ -13,6 +13,9 @@ export default class LevelScene extends Phaser.Scene{
         this.levelJumps = levelJumps;
         this.backgroundImage = backgroundImage;
         this.nextScene = nextScene;
+
+        this.tilemapKey = tilemapKey;
+        this.backgroundKey = backgroundKey;
     }
 
     preload(){
@@ -27,7 +30,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('Camara', './resources/sprites/camera.png');
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
-        this.load.image('levelbackground', this.backgroundImage);
+        this.load.image(this.backgroundKey, this.backgroundImage);
 
         //Carga spritesheet
         this.load.spritesheet('staticNinja', './resources/sprites/player/static.png', { frameWidth: 300, frameHeight: 350 });
@@ -40,7 +43,7 @@ export default class LevelScene extends Phaser.Scene{
 
 
         //Carga Tilemap
-        this.load.tilemapTiledJSON('tilemap', this.jsonString);
+        this.load.tilemapTiledJSON(this.tilemapKey, this.jsonString);
 
         //Desactivar menú contextual clic derecho
         this.input.mouse.disableContextMenu();
@@ -112,18 +115,21 @@ export default class LevelScene extends Phaser.Scene{
 
         //Mapa
         this.map = this.make.tilemap({ 
-            key: 'tilemap', 
+            key: this.tilemapKey, 
         });
+
+        console.log(this.map);
 
         //Layers del tilemap
         //LLAMAR A TODAS LAS LAYER EN TILES COMO ESTAS 
         let tileset = this.map.addTilesetImage('ChineseTempleExpandidoV218x12', 'patronesTilemap');
 
         //Background
-        this.add.image(0,0, 'levelbackground').setOrigin(0,0);
+        this.add.image(0,0, this.backgroundKey).setOrigin(0,0);
 
         //Layers
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
+        console.log(groundLayer);
         groundLayer.setCollisionBetween(0,999);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];
@@ -177,7 +183,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Colision entre Trigger del fin del juego y el player
         this.physics.add.overlap(miNinja, endTrigger, ()=>{
-            this.scene.start('mainMenu'); 
+            this.scene.start(this.nextScene); 
         });
 
         //Colisiones
