@@ -3,6 +3,7 @@ export default class VisionTrigger extends Phaser.GameObjects.Sprite {
         
         super(scene,x,y, sprite);
         this.setDisplaySize(sizeX, sizeY);
+        this.setAlpha(0.5);
         
         scene.add.existing(this);
         scene.physics.world.enable(this);

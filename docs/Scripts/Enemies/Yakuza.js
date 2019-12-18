@@ -4,13 +4,13 @@ import ObjetoAgarrable from "../ObjetoAgarrable.js";
 export default class Yakuza extends EnemyWithTriggerVision{
     constructor(scene, x, y, EnemyType, Agarre, miNinja, VisionTrigger)
     {
-        super(scene,x,y,EnemyType, miNinja, 0, 0, 300, 50, VisionTrigger);
+        super(scene,x,y,EnemyType, miNinja, 30, -100, 300, 100, VisionTrigger);
 
         //Animaciones, tamaños etc..
         this.enemySprite.setDisplaySize(240, 200);
         this.enemySprite.play('YakuzaRun');
         this.visionTrigger.setOrigin(0,0);
-        this.visionTrigger.y = -50;
+        //this.visionTrigger.angle = 90;
 
         //Referencia al ninja
         this.ninja = miNinja;
@@ -38,6 +38,7 @@ export default class Yakuza extends EnemyWithTriggerVision{
             this.enemySprite.flipX = false;
             this.visionTrigger.x = this.visionTrigger.initX;
         }
+        this.visionTrigger.flipX = this.enemySprite.flipX;
         this.agarre.setObj(this.x, this.y);
     }
 }

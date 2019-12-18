@@ -9,7 +9,7 @@ export default class SecurityCamera extends EnemyWithVisionTrigger{
         //Angulos entre los que se va a mover
         this.maxrotation = 10;
         this.minrotation = -this.maxrotation;
-        this.speed = 50;
+        this.speed = 10;
         this.body.angularVelocity = this.speed;
         
     }

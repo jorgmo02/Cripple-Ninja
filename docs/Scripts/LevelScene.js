@@ -20,7 +20,8 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('ninja', './resources/sprites/player/static.png');
         this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTempleExpandidoV218x12.png');
         this.load.image("Yakuza", './resources/Yakuza.png');
-        this.load.image('VisionTrigger','./resources/TemporaryTriggerVision.png');
+        this.load.image('VisionTrigger','./resources/sprites/TriggerVision.png');
+        this.load.image('VisionYakuza','./resources/sprites/TriggerYakuza.png');
         this.load.image('Pinchos', './resources/TemporaryTrap.png');
         this.load.image('Dron', './resources/sprites/drone.png');
         this.load.image('Camara', './resources/sprites/camera.png');
@@ -51,8 +52,6 @@ export default class LevelScene extends Phaser.Scene{
         //Audio
         this.jumpSound = this.sound.add('jumpSound'); 
         
-
-
         //Animaciones
         this.anims.create({
             key: 'run',
@@ -188,7 +187,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Yakuzas
         yakuzaLayer.forEach(object=>{
-            new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionTrigger');
+            new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionYakuza');
         })
 
         //Texto con el número de saltos restantes
