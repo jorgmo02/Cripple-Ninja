@@ -40,7 +40,7 @@ export default class MainMenu extends Phaser.Scene{
         playButton.on('pointerdown',() => {
             this.sound.stopAll();
             this.sceneSound.play()
-            this.scene.start('main')});
+            this.scene.start('Level1')});
         playButton.on('pointerover', ()=>{playButton.setScale(1.1);});
         playButton.on('pointerout', ()=>{playButton.setScale(1);});
 
