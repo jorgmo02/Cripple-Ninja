@@ -166,7 +166,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Colision entre Trigger del fin del juego y el player
         this.physics.add.overlap(miNinja, endTrigger, ()=>{
-            this.scene.start(this.nextScene); 
+            this.scene.start('mainMenu'); 
         });
 
         //Colisiones
