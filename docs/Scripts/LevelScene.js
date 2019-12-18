@@ -42,27 +42,13 @@ export default class LevelScene extends Phaser.Scene{
         this.input.mouse.disableContextMenu();
 
         //Audio
-        this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
+
         this.load.audio('jumpSound', './resources/Sounds/jump_04.wav');
     }
 
 
     create(){
         //Audio
-        this.sound.stopAll();
-
-        const config = {
-            mute: false,
-            volume: 0.75,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-        }; // config es opcional
-        this.sceneSound = this.sound.add('SceneSound', config);
-        this.sceneSound.play();
-
         this.jumpSound = this.sound.add('jumpSound'); 
         
 
