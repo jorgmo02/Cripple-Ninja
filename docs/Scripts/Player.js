@@ -1,3 +1,5 @@
+import Enemy from "./Enemies/Enemy";
+
 export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
@@ -110,7 +112,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         escena.playSeenMusic();
     }
     
-    Jump(agarre, x, y){
+    Jump(agarre, x, y, kill, objective){
         if(this.agarre !== agarre)
         {
             this.agarre = agarre;
@@ -138,6 +140,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
                         player.ResetVelocity();
                         player.play('run');
                         player.anims.stop();
+                        if(kill)objective.isKilled();
                     },
                     targets: this.path,
                     t: 1,

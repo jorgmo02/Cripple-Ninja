@@ -33,8 +33,7 @@ export default class ObjetoAgarrable extends Phaser.GameObjects.Sprite{
         this.setActive(false); 
     }
 
-    setObj(x, y)
-    {
+    setObj(x, y) {
         this.objx = x; this.objy = y;
     }
 }
