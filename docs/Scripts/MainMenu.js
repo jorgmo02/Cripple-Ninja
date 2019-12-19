@@ -2,6 +2,7 @@
 export default class MainMenu extends Phaser.Scene{
     constructor() {
         super({ key: 'mainMenu' });
+        this.gameCharged = false;
     }
     preload(){
         this.load.image('background','./resources/MainMenuBackground.png');
@@ -38,7 +39,9 @@ export default class MainMenu extends Phaser.Scene{
         playButton.setInteractive();
         playButton.on('pointerdown',() => {
             this.sound.stopAll();
-            this.scene.start('LoadingScene')});
+            if(!this.gameCharged){this.scene.start('LoadingScene'); this.gameCharged = true;}
+            else this.scene.start('Level1');
+        });
         playButton.on('pointerover', ()=>{playButton.setScale(1.1);});
         playButton.on('pointerout', ()=>{playButton.setScale(1);});
 

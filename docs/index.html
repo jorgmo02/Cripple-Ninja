@@ -63,6 +63,7 @@
         import MainMenu from './Scripts/MainMenu.js';
         import Level2 from './Scripts/Level2.js';
         import ChargeScene from './Scripts/ChargeScene.js'
+        import YouWinScene from './Scripts/YouWinScene.js'
 
         var config = {
             type: Phaser.AUTO,
@@ -77,7 +78,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ MainMenu ,ChargeScene, Level1, Level2],
+            scene: [ MainMenu ,ChargeScene, Level1, Level2, YouWinScene],
             physics: { default: 'arcade', arcade: { gravity: { y: 900 }, debug: true } }
         };
         new Phaser.Game(config);
