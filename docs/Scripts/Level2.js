@@ -3,7 +3,8 @@ import LevelScene from './LevelScene.js';
 export default class Level2 extends LevelScene {
 
     constructor() {
-        super('./resources/maps/Level2.json', 'Level2', 150, 2000, 3, './resources/maps/backgrounds/background2.png', 'mainMenu', 'tilemap2', 'background2');
+        super('./resources/maps/Level2.2json', 'Level2', 150, 2000, 9, './resources/maps/backgrounds/background2.png', 'mainMenu', 'tilemap2', 'background2');
     }
     
+
 }

@@ -34,7 +34,7 @@ export default class LevelScene extends Phaser.Scene{
 
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap','./resources/maps/Level1.2.json');
-        this.load.tilemapTiledJSON('tilemap2','./resources/maps/Level2.json');
+        this.load.tilemapTiledJSON('tilemap2','./resources/maps/Level2.2.json');
 
         
         //Audio
