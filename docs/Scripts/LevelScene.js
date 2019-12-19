@@ -117,7 +117,6 @@ export default class LevelScene extends Phaser.Scene{
             let obj = new ObjetoAgarrable (this, object.x, object.y, 'invisible', miNinja, ()=>{
                 miNinja.Jump(obj, obj.x, obj.y);
             }, false, buttonLayer);
-            //obj.setScale(object.width/500, object.height/500); //Esto no haría falta una vez que tuviesemos sprites definitivos
             obj.setOrigin(0.5,0.5);
         });
             
