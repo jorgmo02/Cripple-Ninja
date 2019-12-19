@@ -19,40 +19,8 @@ export default class LevelScene extends Phaser.Scene{
     }
 
     preload(){
-        //Carga imágenes
-        this.load.image("invisible", "./resources/Transparente.png");
-        this.load.image('ninja', './resources/sprites/player/static.png');
-        this.load.image('patronesTilemap', './resources/sprites/Tilesets/ChineseTempleExpandidoV218x12.png');
-        this.load.image('VisionTrigger','./resources/sprites/TriggerVision.png');
-        this.load.image('VisionYakuza','./resources/sprites/TriggerYakuza.png');
-        this.load.image('Trap', './resources/sprites/trap/trap0.png');
-        this.load.image('Dron', './resources/sprites/drone.png');
-        this.load.image('Camara', './resources/sprites/camera.png');
-        this.load.image('RestartButton', './resources/RestartButton.png');
-        this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
-        this.load.image(this.backgroundKey, this.backgroundImage);
-
-        //Carga spritesheet
-        this.load.spritesheet('staticNinja', './resources/sprites/player/static.png', { frameWidth: 300, frameHeight: 350 });
-        this.load.spritesheet('bendedNinja', './resources/sprites/player/idle agachado.png', { frameWidth: 300, frameHeight: 350 });
-        this.load.spritesheet('runningNinja', './resources/sprites/player/run/running.png', { frameWidth: 300, frameHeight: 350 });
-        this.load.spritesheet('fallingNinja', './resources/sprites/player/falling/falling.png', { frameWidth: 300, frameHeight: 350 });
-        this.load.spritesheet('runningYakuza', './resources/sprites/yakuza/walking/walking.png', {frameWidth: 300, frameHeight:300 });
-        this.load.spritesheet('jumpingNinja', './resources/sprites/player/jump/jumping.png', {frameWidth:300 ,frameHeight:350 });
-        this.load.spritesheet('trapAnimation', './resources/sprites/trap/trapSpritesheet.png' , {frameWidth: 423, frameHeight: 249});
-
-
-        //Carga Tilemap
-        this.load.tilemapTiledJSON(this.tilemapKey, this.jsonString);
-
         //Desactivar menú contextual clic derecho
         this.input.mouse.disableContextMenu();
-
-        //Audio
-        this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
-        this.load.audio('jumpSound', './resources/Sounds/jump.mp3');
-        this.load.audio('seenSound', './resources/Sounds/detected.wav');
-        this.load.audio('killSound', './resources/Sounds/kill.mp3');
     }
 
 
@@ -118,8 +86,6 @@ export default class LevelScene extends Phaser.Scene{
             key: this.tilemapKey, 
         });
 
-        console.log(this.map);
-
         //Layers del tilemap
         //LLAMAR A TODAS LAS LAYER EN TILES COMO ESTAS 
         let tileset = this.map.addTilesetImage('ChineseTempleExpandidoV218x12', 'patronesTilemap');
@@ -129,7 +95,6 @@ export default class LevelScene extends Phaser.Scene{
 
         //Layers
         let groundLayer = this.map.createStaticLayer('Suelo', tileset,0,0);
-        console.log(groundLayer);
         groundLayer.setCollisionBetween(0,999);
         let buttonLayer = this.map.getObjectLayer('Agarres')['objects'];
         let trapLayer = this.map.getObjectLayer('Trampas')['objects'];

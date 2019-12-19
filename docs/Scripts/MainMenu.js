@@ -8,11 +8,10 @@ export default class MainMenu extends Phaser.Scene{
         this.load.image( 'startButton', './resources/StartButton.png');
         this.load.audio('backgroundMusic', './resources/music/CherryBlossoms.ogg');
         this.load.audio('SceneSound', './resources/music/ZenGarden.ogg');
+        this.load.image('Controles', './resources/Controles1000x600.png');
     }
 
     create(){
-        //Por defecto, quitamos todo el audio que pudiese haber
-        this.sound.stopAll();
 
         //Fondo
         this.add.image(0,0, 'background').setOrigin(0,0);
@@ -31,7 +30,7 @@ export default class MainMenu extends Phaser.Scene{
         let music = this.sound.add('backgroundMusic', config);
         music.play();
 
-        this.sceneSound = this.sound.add('SceneSound', config);
+        
         
 
         //Boton
@@ -39,8 +38,7 @@ export default class MainMenu extends Phaser.Scene{
         playButton.setInteractive();
         playButton.on('pointerdown',() => {
             this.sound.stopAll();
-            this.sceneSound.play()
-            this.scene.start('Level1')});
+            this.scene.start('LoadingScene')});
         playButton.on('pointerover', ()=>{playButton.setScale(1.1);});
         playButton.on('pointerout', ()=>{playButton.setScale(1);});
 
