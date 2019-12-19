@@ -52,8 +52,4 @@ export default class LevelScene extends Phaser.Scene{
 
 
     }
-
-    update(){
-        this.scene.start('Level1');
-    }
 }

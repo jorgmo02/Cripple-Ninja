@@ -73,13 +73,13 @@
   <object id="69" x="1190.91" y="718.182"/>
  </objectgroup>
  <objectgroup id="8" name="Yakuzas">
-  <object id="37" x="4176" y="1946"/>
-  <object id="38" x="4738" y="1950"/>
+  <object id="37" x="4173.33" y="1924.67"/>
+  <object id="38" x="4736.67" y="1924"/>
   <object id="45" x="1676" y="1972"/>
  </objectgroup>
  <objectgroup id="9" name="Trampas">
-  <object id="64" x="905.667" y="2011.67"/>
-  <object id="66" x="967.67" y="2010.83"/>
-  <object id="67" x="1026.67" y="2010.17"/>
+  <object id="64" x="911.667" y="1995.67"/>
+  <object id="66" x="968.003" y="1998.16"/>
+  <object id="67" x="1027" y="1997.84"/>
  </objectgroup>
 </map>

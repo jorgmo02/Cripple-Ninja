@@ -79,7 +79,7 @@
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
             scene: [ MainMenu ,ChargeScene, Level1, Level2, YouWinScene],
-            physics: { default: 'arcade', arcade: { gravity: { y: 900 }, debug: true } }
+            physics: { default: 'arcade', arcade: { gravity: { y: 900 }, debug: false } }
         };
         new Phaser.Game(config);
     </script>
