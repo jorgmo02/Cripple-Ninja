@@ -77,7 +77,7 @@ export default class LevelScene extends Phaser.Scene{
             key:'TrapAnim',
             frames: this.anims.generateFrameNumbers('trapAnimation'),
             yoyo:true,
-            frameRate: 4,
+            frameRate: 20,
             repeat: -1,
         })
 
