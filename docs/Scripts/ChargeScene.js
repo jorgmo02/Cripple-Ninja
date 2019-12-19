@@ -17,6 +17,7 @@ export default class LevelScene extends Phaser.Scene{
         this.load.image('Camara', './resources/sprites/camera.png');
         this.load.image('RestartButton', './resources/RestartButton.png');
         this.load.image('defYakuza', './resources/sprites/yakuza/yakuza base.png');
+        this.load.image('YouWinScreen', './resources/YouWin.png');
 
         //Fondos de los niveles
         this.load.image('background1', './resources/maps/backgrounds/background1.png');
@@ -50,5 +51,9 @@ export default class LevelScene extends Phaser.Scene{
         }, this);
 
 
+    }
+
+    update(){
+        this.scene.start('Level1');
     }
 }
