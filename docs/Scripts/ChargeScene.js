@@ -22,7 +22,7 @@ export default class LevelScene extends Phaser.Scene{
         //Fondos de los niveles
         this.load.image('background1', './resources/maps/backgrounds/background1.png');
         this.load.image('background2', './resources/maps/backgrounds/background2.png');
-        this.load.image('background4', './resources/maps/backgrounds/background4.png');
+        this.load.image('background3', './resources/maps/backgrounds/background5.png');
 
         //Carga spritesheet
         this.load.spritesheet('staticNinja', './resources/sprites/player/static.png', { frameWidth: 300, frameHeight: 350 });

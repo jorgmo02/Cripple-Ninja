@@ -157,6 +157,8 @@ export default class LevelScene extends Phaser.Scene{
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setSize(1000,600);
 
+        console.log(this.map.widthInPixels +'x' + this.map.heightInPixels);
+
         //Follow Player
         this.cameras.main.startFollow(miNinja);
         this.cameras.main.followOffset.x = -300;
