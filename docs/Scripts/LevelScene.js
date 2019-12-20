@@ -5,15 +5,12 @@ import Dron from './Enemies/Dron.js';
 import SecurityCamera from './Enemies/SecurityCamera.js';
 
 export default class LevelScene extends Phaser.Scene{
-    constructor(mapJson, LevelKey, ninjaX, ninjaY, levelJumps, backgroundImage, nextScene, tilemapKey, backgroundKey){
+    constructor(LevelKey, ninjaX, ninjaY, levelJumps, nextScene, tilemapKey, backgroundKey){
         super({ key: LevelKey });
-        this.jsonString = mapJson;
         this.initNinjaX = ninjaX;
         this.initNinjaY = ninjaY;
         this.levelJumps = levelJumps;
-        this.backgroundImage = backgroundImage;
         this.nextScene = nextScene;
-
         this.tilemapKey = tilemapKey;
         this.backgroundKey = backgroundKey;
     }
@@ -118,13 +115,14 @@ export default class LevelScene extends Phaser.Scene{
                 miNinja.Jump(obj, obj.x, obj.y);
             }, false, buttonLayer);
             obj.setOrigin(0.5,0.5);
+            obj.setDisplaySize(64,64);
         });
             
         //Creación de las trampas
         let trampas = this.physics.add.staticGroup();
         trapLayer.forEach(object => {
             let obj = this.add.sprite(object.x, object.y, 'Trap').play('TrapAnim');
-            obj.setDisplaySize(64,64); //Esto no haría falta una vez que tuviesemos sprites definitivos
+            obj.setDisplaySize(64,64); //tamaño de los tiles
             obj.setOrigin(0);
             trampas.add(obj, [this]);
             obj.body.setSize(50,50);
@@ -133,9 +131,10 @@ export default class LevelScene extends Phaser.Scene{
         //Creación del trigger del fin del juego
         let endTrigger = this.physics.add.staticGroup();
         EndLevel.forEach(object=>{
-            let trigger = this.add.sprite(object.x, object.y, 'invisible');
-            trigger.setOrigin(0,0);
+            let trigger = this.add.sprite(object.x + (object.width/2), object.y + (object.height/2), 'invisible');
             endTrigger.add(trigger, [this]);
+            trigger.body.setSize( object.width,object.height);
+            
         });
 
 
@@ -157,7 +156,6 @@ export default class LevelScene extends Phaser.Scene{
         this.cameras.main.setBounds(0,0,this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setSize(1000,600);
 
-        console.log(this.map.widthInPixels +'x' + this.map.heightInPixels);
 
         //Follow Player
         this.cameras.main.startFollow(miNinja);
@@ -177,7 +175,7 @@ export default class LevelScene extends Phaser.Scene{
         droneLayer.forEach(object=>{
             new Dron(this, object.x, object.y, 'Dron', miNinja, 'VisionTrigger');
         })
-
+        
         //Yakuzas
         yakuzaLayer.forEach(object=>{
             new Yakuza (this, object.x, object.y, 'defYakuza','invisible', miNinja, 'VisionYakuza');

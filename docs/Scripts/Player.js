@@ -1,3 +1,5 @@
+
+
 export default class Player extends Phaser.GameObjects.Sprite{
 
     constructor(scene, x,y, sprite, nJumps){
@@ -10,6 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setCollideWorldBounds(true);
         scene.add.existing(this);
         this.body.setOffset(100, 0);
+        this.body.maxVelocity.y =900;
 
         //Atributos
         this.mouse = scene.input.activePointer;

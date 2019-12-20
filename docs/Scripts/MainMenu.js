@@ -31,16 +31,14 @@ export default class MainMenu extends Phaser.Scene{
         let music = this.sound.add('backgroundMusic', config);
         music.play();
 
-        
-        
-
         //Boton
         let playButton = this.add.sprite(500, 450, 'startButton');
         playButton.setInteractive();
         playButton.on('pointerdown',() => {
             this.sound.stopAll();
             if(!this.gameCharged){this.scene.start('LoadingScene'); this.gameCharged = true;}
-            else {this.sound.add('SceneSound', config).play();
+            else {
+                this.sound.add('SceneSound', config).play();
                 this.scene.start('Level1');}
         });
         playButton.on('pointerover', ()=>{playButton.setScale(1.1);});

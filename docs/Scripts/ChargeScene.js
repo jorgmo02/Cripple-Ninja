@@ -49,7 +49,7 @@ export default class LevelScene extends Phaser.Scene{
         //Cuando se cargan todos los recursos, empieza el nivel 1
         this.load.on('complete', function () {
             this.sound.add('SceneSound').play();
-            this.scene.start('Level3');
+            this.scene.start('Level1');
         }, this);
 
 
