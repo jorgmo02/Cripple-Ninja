@@ -22,6 +22,7 @@ export default class LevelScene extends Phaser.Scene{
         //Fondos de los niveles
         this.load.image('background1', './resources/maps/backgrounds/background1.png');
         this.load.image('background2', './resources/maps/backgrounds/background2.png');
+        this.load.image('background4', './resources/maps/backgrounds/background4.png');
 
         //Carga spritesheet
         this.load.spritesheet('staticNinja', './resources/sprites/player/static.png', { frameWidth: 300, frameHeight: 350 });
@@ -36,6 +37,7 @@ export default class LevelScene extends Phaser.Scene{
         //Carga Tilemap
         this.load.tilemapTiledJSON('tilemap','./resources/maps/Level1.json');
         this.load.tilemapTiledJSON('tilemap2','./resources/maps/Level2.2.json');
+        this.load.tilemapTiledJSON('tilemap3','./resources/maps/Level3.json');
 
         
         //Audio
@@ -47,7 +49,7 @@ export default class LevelScene extends Phaser.Scene{
         //Cuando se cargan todos los recursos, empieza el nivel 1
         this.load.on('complete', function () {
             this.sound.add('SceneSound').play();
-            this.scene.start('Level1');
+            this.scene.start('Level3');
         }, this);
 
 
